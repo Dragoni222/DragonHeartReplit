@@ -17,7 +17,7 @@ class ColorConverterClass
 
 public static string convertColorToString(ConsoleColor color)
 {
-    string endColor = "none";
+    string endColor = "red";
 
     if (color == ConsoleColor.Black)
         endColor = "black";
@@ -73,7 +73,7 @@ public static string convertColorToString(ConsoleColor color)
 
 public static ConsoleColor convertColorToConsoleColor(string color)
 {
-    ConsoleColor EndColor = ConsoleColor.White;
+    ConsoleColor EndColor = ConsoleColor.Red;
 
     if (color == "black")
         EndColor = ConsoleColor.Black;

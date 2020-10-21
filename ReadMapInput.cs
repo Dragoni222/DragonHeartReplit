@@ -15,75 +15,78 @@ using System.Text;
 class ReadMapInputClass
 {
 
-public static List<List<string>> readFullMap(List<List<string>> original, string newString)
+    public static List<List<string>> readFullMap(List<List<string>> original, string newString)
 
-{
-    int arrayX = 0;
-    int arrayY = 0;
-    bool inQuote = false;
-
-    for (int i = 0; i <= newString.Length - 1; i++)
     {
-       
+        int arrayX = 0;
+        int arrayY = 0;
+        bool inQuote = false;
 
-        if (newString[i].ToString() == "\"")
+        for (int i = 0; i <= newString.Length - 1; i++)
         {
-            if (inQuote == false)
-            {
-                inQuote = true;
-            }
 
-            if (inQuote == true)
-            {
-                inQuote = false;
-            }
+
+                if (newString[i].ToString() == "\"")
+                {
+                    if (inQuote == false)
+                    {
+                        inQuote = true;
+                    }
+
+                    else if (inQuote == true)
+                    {
+                        inQuote = false;
+                    }
+
+                }
+
+                else if (newString[i].ToString() == "}")
+                {
+                    arrayX++;
+                    arrayY = 0;
+                }
+
+                else if (newString[i].ToString() == ",")
+                    arrayY++;
+
+                else if (inQuote == true && newString[i].ToString() != " " && newString[i].ToString() != ";")
+                {
+                    original[arrayX][arrayY] = newString[i].ToString();
+
+                }
+                else if (newString[i].ToString() == "{")
+                    arrayY = 0;
 
         }
 
-        else if (newString[i].ToString() == "}")
-        {
-          arrayX++;
-          arrayY = 0;
-        }
-         else if (newString[i].ToString() == ",")
-          arrayY++;
-
-        else if (inQuote == true && newString[i].ToString() == " "&& newString[i].ToString() != "{"&& newString[i].ToString() != ";")
-        {
-            original[arrayX][arrayY] = newString[i].ToString();
-            
-        }
+        return original;
     }
 
-    return original;
-}
-
-public static List<List<ConsoleColor>> readFullMapColor(List<List<ConsoleColor>> original, string newString)
-{
-    int arrayX = 0;
-    int arrayY = -1;
-    bool inQuote = false;
-    string addedTogether = "";
-    StringBuilder sb = new StringBuilder(addedTogether, 50);
-
-
-    for (int i = 0; i <= newString.Length - 1; i++)
+    public static List<List<ConsoleColor>> readFullMapColor(List<List<ConsoleColor>> original, string newString)
     {
+        int arrayX = 0;
+        int arrayY = 0;
+        bool inQuote = false;
+        string addedTogether = "";
+        StringBuilder sb = new StringBuilder(addedTogether, 50);
+
+
+        for (int i = 0; i <= newString.Length - 1; i++)
+        {
         
         if (newString[i].ToString() == "\"")
         {
-             if (inQuote == false)
+                if (inQuote == false)
             {
                 inQuote = true;
             }
 
-            if (inQuote == true)
+            else if (inQuote == true)
             {
 
                 addedTogether = sb.ToString();
                 inQuote = false;
                 original[arrayX][arrayY] = convertColorToConsoleColor(addedTogether);
-                addedTogether = "";
                 sb = new StringBuilder();
                 
             }
@@ -91,22 +94,25 @@ public static List<List<ConsoleColor>> readFullMapColor(List<List<ConsoleColor>>
         
         else if (newString[i].ToString() == "}")
         {
-          arrayX++;
-          arrayY = 0;
+            arrayX++;
+            arrayY = -1;
         }
         else if (newString[i].ToString() == ",")
-          arrayY++;
+            arrayY++;
 
-        else if (inQuote == true &&  newString[i].ToString() == " "&& newString[i].ToString() != "{"&& newString[i].ToString() != ";")
+        else if (inQuote == true &&  newString[i].ToString() != " "&& newString[i].ToString() != ";")
         {
-          
-          sb.Append(newString[i].ToString());
+            
+            sb.Append(newString[i]);
               
             
         }
-    }
 
-    return original;
-}
+        else if (newString[i].ToString() == "{")
+                arrayY = 0;
+        }
+
+        return original;
+    }
 
 }
