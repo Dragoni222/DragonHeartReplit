@@ -42,6 +42,7 @@ class PlayClass
     //the zoom of the map, in the length of one side, make sure it's odd
     int mapZoom = 11;
     bool onTitleScreen = true;
+    bool ghost;
 
     while(onTitleScreen == true)
     {
@@ -74,7 +75,9 @@ class PlayClass
       //for devbuild map maker
       if (readLine == "10212005")
       {
-          //prints map 
+                //prints map
+
+          ghost = true;
 
           fullMap = mapAugment(fullMapOrig, Player1.charXY[0], Player1.charXY[1], Player1.name);
           fullMapColor = mapAugmentColor(fullMapColorOrig, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
@@ -99,13 +102,21 @@ class PlayClass
                   int[] prevCharXY = { 1, 0 };
                   prevCharXY[1] = Player1.charXY[1];
                   prevCharXY[0] = Player1.charXY[0];
+    
+                  Player1.charXY = charMove(Player1, commandInput, fullMap, ghost);
 
+                  if (Player1.charXY[1] == prevCharXY[1] && Player1.charXY[0] == prevCharXY[0])
+                  {
+                       onScreenText = onScreenTextAugment(onScreenText, "you cannot move there", 13);
+                       onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "red", 12, 1, 21, colorChangeID);
+                  }
 
-                  Player1.charXY = charMove(Player1, commandInput);
                   if (placeBlock == false)
                   {
-                      fullMap = mapAugment(fullMap, prevCharXY[0], prevCharXY[1],
-                          fullMapOrig[prevCharXY[1]][prevCharXY[0]]);
+                       fullMap = mapAugment(fullMap, prevCharXY[0], prevCharXY[1],
+                        fullMapOrig[prevCharXY[1]][prevCharXY[0]]);
+                            
+                        
                   }
 
                   if (placeColor == false)

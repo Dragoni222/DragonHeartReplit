@@ -2,10 +2,6 @@
 TO DO:
   Right now:
 
-  
-  print function for map/ input printed function
-    make readcolormapinput output ConsoleColor instead of string
-  create title screen so I can input map
   fix not being able to go to edge of map
   move combat log to the right side of map
   update map editor to make lines and stuff

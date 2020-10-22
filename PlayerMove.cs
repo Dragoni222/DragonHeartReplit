@@ -15,31 +15,44 @@ using System.Text;
 class PlayerMoveClass
 {
 
-public static int[] charMove(Player Player1, ConsoleKey input)
+public static int[] charMove(Player Player1, ConsoleKey input, List<List<string>> fullMap, bool ghost)
     {
 
 
         //Checks input and moves accordingly
         if (input == ConsoleKey.W)
         {
-            Player1.charXY[1] -= 1;
+            if (Player1.charXY[1] >= 1)
+            {
+                if (fullMap[Player1.charXY[0]][Player1.charXY[1] - 1] != "0" || ghost == true)
+                    Player1.charXY[1] -= 1;
+            }
         }
         else if (input == ConsoleKey.A)
         {
-            Player1.charXY[0] -= 1;
+            if (Player1.charXY[0] >= 1)
+            {
+                if (fullMap[Player1.charXY[0] - 1][Player1.charXY[1]] != "0" || ghost == true)
+                    Player1.charXY[0] -= 1;
+            }
         }
         else if (input == ConsoleKey.S)
         {
-            Player1.charXY[1] += 1;
+            if (Player1.charXY[1] < fullMap.Count-1)
+            {
+                if (fullMap[Player1.charXY[0]][Player1.charXY[1] + 1] != "0" || ghost == true)
+                    Player1.charXY[1] += 1;
+            }
         }
         else if (input == ConsoleKey.D)
         {
-            Player1.charXY[0] += 1;
+            if (Player1.charXY[0] < fullMap[0].Count-1)
+            {
+                if (fullMap[Player1.charXY[0] + 1][Player1.charXY[1]] != "0" || ghost == true)
+                    Player1.charXY[0] += 1;
+            }
         }
-        else
-        {
-            Console.WriteLine("uh, you didn't input anything");
-        }
+        
 
 
 
