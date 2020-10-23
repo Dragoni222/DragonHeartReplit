@@ -21,7 +21,7 @@ class DrawFrameClass
 
 
         Console.Clear();
-        mapPrint(zoom, fullMap, Player1, fullColorMap);
+        mapPrint(zoom, fullMap, Player1, fullColorMap, textString, onScreenTextColor);
 
         onScreenTextPrint(textString, onScreenTextColor);
 
@@ -31,7 +31,8 @@ class DrawFrameClass
 
 
     public static void mapPrint(int zoom, List<List<string>> fullMap,
-          Player Player1, List<List<System.ConsoleColor>> fullColorMap)
+          Player Player1, List<List<System.ConsoleColor>> fullColorMap,
+          string[] onScreenText, List<string[]>[] onScreenTextColor)
     {
         //another i counter
         int j = 0;
@@ -200,6 +201,7 @@ public static void onScreenTextPrint(string[] textString1, List<string[]>[] colo
 
     }
 }
+
 public static bool IsDigitsOnly(string str)
 {
     foreach (char c in str)

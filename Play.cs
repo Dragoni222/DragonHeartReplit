@@ -103,11 +103,13 @@ class PlayClass
                   if (placeBlock == true)
                   {
                       fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0], Player1.charXY[1], Player1.name);
-                  }
+                            fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
+                        }
                   if (placeColor == true)
                   {
                       fullMapColorOrig = mapAugmentColor(fullMapColorOrig, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
-                  }
+                            fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
+                        }
 
                   int[] prevCharXY = { 1, 0 };
                   prevCharXY[1] = Player1.charXY[1];
@@ -120,7 +122,7 @@ class PlayClass
                        onScreenText = onScreenTextAugment(onScreenText, "you cannot move there", 13);
                        onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "red", 12, 1, 21, colorChangeID);
                   }
-
+                  
                   if (placeBlock == false)
                   {
                        fullMap = mapAugment(fullMap, prevCharXY[0], prevCharXY[1],
@@ -189,7 +191,7 @@ class PlayClass
                         // north = 1, east 2, south 3, west 0
 
                         Console.Clear();
-                        Console.WriteLine("(L)ine and (S)quare Drawing.");
+                        Console.WriteLine("(L)ine and (R)ectangle Drawing.");
 
                         commandInput = KeyInput().Key;
 
@@ -209,12 +211,22 @@ class PlayClass
                                         Player1.charXY[1], Player1.name);
                                     fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
                                         Player1.charXY[0] - i, Player1.charXY[1], Player1.nameColor);
+
+                                    fullMap = mapAugment(fullMap, Player1.charXY[0] - i,
+                                        Player1.charXY[1], Player1.name);
+                                    fullMapColor = mapAugmentColor(fullMapColor,
+                                        Player1.charXY[0] - i, Player1.charXY[1], Player1.nameColor);
                                 }
                                 if (direction == 1)
                                 {
                                     fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0],
                                         Player1.charXY[1] - i, Player1.name);
                                     fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
+                                        Player1.charXY[0], Player1.charXY[1] - i, Player1.nameColor);
+
+                                    fullMap = mapAugment(fullMapOrig, Player1.charXY[0],
+                                        Player1.charXY[1] - i, Player1.name);
+                                    fullMapColor = mapAugmentColor(fullMapColorOrig,
                                         Player1.charXY[0], Player1.charXY[1] - i, Player1.nameColor);
                                 }
                                 if (direction == 2)
@@ -223,6 +235,11 @@ class PlayClass
                                         Player1.charXY[1], Player1.name);
                                     fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
                                         Player1.charXY[0] + i, Player1.charXY[1], Player1.nameColor);
+
+                                    fullMap = mapAugment(fullMap, Player1.charXY[0] + i,
+                                        Player1.charXY[1], Player1.name);
+                                    fullMapColor = mapAugmentColor(fullMapColor,
+                                        Player1.charXY[0] + i, Player1.charXY[1], Player1.nameColor);
                                 }
                                 if (direction == 3)
                                 {
@@ -230,12 +247,46 @@ class PlayClass
                                         Player1.charXY[1] - i, Player1.name);
                                     fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
                                         Player1.charXY[0], Player1.charXY[1] - i, Player1.nameColor);
+
+                                    fullMap = mapAugment(fullMap, Player1.charXY[0] + i,
+                                        Player1.charXY[1] - i, Player1.name);
+                                    fullMapColor = mapAugmentColor(fullMapColor,
+                                        Player1.charXY[0], Player1.charXY[1] - i, Player1.nameColor);
+                                }
+                            }
+                            }
+                        else if (commandInput == ConsoleKey.R)
+                        {
+                            int width;
+                            int hight;
+                            Console.WriteLine("Input the width first, then the " +
+                                "hight. It will start to the right of you.\n width: ");
+                            width = int.Parse(Console.ReadLine());
+                            Console.Write("\n Hight: ");
+                            hight = int.Parse(Console.ReadLine());
+
+                            for(int i = 0; i < width; i++)
+                            {
+                                for(int j = 0; j < hight; j++)
+                                {
+                                    fullMap = mapAugment(fullMap, Player1.charXY[0]+i,
+                                        Player1.charXY[1] + j, Player1.name);
+                                    fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0] + i,
+                                        Player1.charXY[1] + j, Player1.name);
+
+                                    fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0] + i,
+                                        Player1.charXY[1] + j, Player1.nameColor);
+                                    fullMapColorOrig = mapAugmentColor(fullMapColor, Player1.charXY[0] + i,
+                                        Player1.charXY[1] + j, Player1.nameColor);
+
                                 }
                             }
 
+                        }
+
 
                         }
-              }
+              
               else if (commandInput == ConsoleKey.Escape)
               {
                   Console.Clear();
@@ -257,7 +308,7 @@ class PlayClass
                           Console.Write("{");
                           for (int j = 1; j <= fullMap[0].Count; j++)
                           {
-                              Console.Write($"\"{fullMap[j - 1][i - 1]}\",");
+                              Console.Write($"\"{fullMapOrig[j - 1][i - 1]}\",");
                           }
                           Console.Write("},");
                       }
@@ -290,7 +341,7 @@ class PlayClass
                           Console.Write("{");
                           for (int j = 1; j <= fullMapColor[0].Count; j++)
                           {
-                              Console.Write($"\"{convertColorToString(fullMapColor[j - 1][i - 1])}\", ");
+                              Console.Write($"\"{convertColorToString(fullMapColorOrig[j - 1][i - 1])}\", ");
                           }
                           Console.Write("}, ");
                       }

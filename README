@@ -1,10 +1,8 @@
 /*
 TO DO:
   Right now:
-  fix editor issues(drawing 2 at once, coloring inteasd of plcing once)
-  move combat log to the right side of map(maybe)
-  update map editor to make lines and stuff
-  Keybinds
+  move combat log to the right side of map(maybe)(skip for now)
+  Keybinds(print and remake in menu)
 
   Future plan:
 -Make printout of stats using Player object(done)
