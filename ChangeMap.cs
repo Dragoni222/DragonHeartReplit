@@ -15,159 +15,132 @@ using System.Text;
 class ChangeMapClass
 {
 
-public static List<List<string>> mapAugment(List<List<string>> fullMap, int x, int y, string change)
-      {
-          List<List<string>> newFullMap = new List<List<string>>();
+    public static List<List<string>> mapAugment(List<List<string>> fullMap, int x, int y, string change)
+    {
+        List<List<string>> newFullMap = new List<List<string>>();
 
-          //map instantiator adds characters so the map doesn't run out of room)
-          for (int m = 0; m < 100; m++)
-          {
-              newFullMap.Add(new List<string>());
+        //map instantiator adds characters so the map doesn't run out of room)
+        for (int m = 0; m < 100; m++)
+        {
+            newFullMap.Add(new List<string>());
 
-              for (int i = 0; i < 100; i++)
-              {
-                  newFullMap[m].Add("#");
+            for (int i = 0; i < 100; i++)
+            {
+                newFullMap[m].Add("#");
 
-              }
+            }
 
-          }
+        }
 
+        int j = 0;
 
+        //writing to newFullMap (yes this is nessisary it breaks otherwise)
+        for (int i = 0;
+        (i + 1) * (j + 1) <= fullMap.Count * fullMap[0].Count; i++)
+        {
 
-          int j = 0;
+            //checks if page wrap
+            if (i + 1 != fullMap[0].Count)
+            {
+                //checks if is outside or array range
+                if (j + 1 <= fullMap.Count)
+                {
 
-          //writing to newFullMap (yes this is nessisary it breaks otherwise)
-          for (int i = 0; (i + 1) * (j + 1) <= fullMap.Count * fullMap[0].Count; i++)
-          {
+                    if (i < fullMap[j].Count)
+                    {
+                        newFullMap[j][i] = fullMap[j][i];
 
-              //checks if page wrap
-              if (i + 1 != fullMap[0].Count)
-              {
-                  //checks if is outside or array range
+                    }
 
-                  if (j + 1 <= fullMap.Count)
-                  {
+                }
+            }
+            else
+            {
+                //resets and goes to next line
+                j++;
+                i = 0;
 
-                      if (i < fullMap[j].Count)
-                      {
-                          newFullMap[j][i] = fullMap[j][i];
+                //Make sure J doesn't go out of bounds
+                if (j + 1 <= fullMap.Count)
+                {
 
-                      }
+                    if (i < fullMap[j].Count)
+                    {
+                        newFullMap[j][i] = fullMap[j][i];
+                    }
 
-                  }
-              }
-              else
-              {
-                  //resets and goes to next line
-                  j++;
-                  i = 0;
+                }
+            }
 
+        }
 
-                  //Make sure J doesn't go out of bounds
+        newFullMap[y][x] = change;
 
-                  if (j + 1 <= fullMap.Count)
-                  {
+        return newFullMap;
+    }
 
-                      if (i < fullMap[j].Count)
-                      {
-                          newFullMap[j][i] = fullMap[j][i];
-                      }
+    public static List<List<ConsoleColor>> mapAugmentColor(List<List<ConsoleColor>> fullMapColor, int x, int y, ConsoleColor change)
+    {
+        List<List<ConsoleColor>> newFullMapColor = new List<List<ConsoleColor>>();
 
-                  }
-              }
+        //map instantiator adds characters so the map doesn't run out of room)
+        for (int m = 0; m < 100; m++)
+        {
+            newFullMapColor.Add(new List<ConsoleColor>());
 
+            for (int i = 0; i < 100; i++)
+            {
+                newFullMapColor[m].Add(ConsoleColor.Yellow);
 
+            }
 
+        }
 
+        int j = 0;
 
-          }
+        //writing to newFullMap (yes this is nessisary it breaks otherwise)
+        for (int i = 0;
+        (i + 1) * (j + 1) <= fullMapColor.Count * fullMapColor[0].Count; i++)
+        {
 
+            //checks if page wrap
+            if (i + 1 != fullMapColor[0].Count)
+            {
+                //checks if is outside or array range
+                if (j + 1 <= fullMapColor.Count)
+                {
 
+                    if (i < fullMapColor[j].Count)
+                    {
+                        newFullMapColor[j][i] = fullMapColor[j][i];
 
+                    }
 
+                }
+            }
+            else
+            {
+                //resets and goes to next line
+                j++;
+                i = 0;
 
-          newFullMap[y][x] = change;
+                //Make sure J doesn't go out of bounds
+                if (j + 1 <= fullMapColor.Count)
+                {
 
+                    if (i < fullMapColor[j].Count)
+                    {
+                        newFullMapColor[j][i] = fullMapColor[j][i];
+                    }
 
-          return newFullMap;
-      }
+                }
+            }
 
+        }
 
-      public static List<List<ConsoleColor>> mapAugmentColor(List<List<ConsoleColor>> fullMapColor, int x, int y, ConsoleColor change)
-      {
-          List<List<ConsoleColor>> newFullMapColor = new List<List<ConsoleColor>>();
+        newFullMapColor[y][x] = change;
 
-          //map instantiator adds characters so the map doesn't run out of room)
-          for (int m = 0; m < 100; m++)
-          {
-              newFullMapColor.Add(new List<ConsoleColor>());
+        return newFullMapColor;
+    }
 
-              for (int i = 0; i < 100; i++)
-              {
-                  newFullMapColor[m].Add(ConsoleColor.Yellow);
-
-              }
-
-          }
-
-
-
-          int j = 0;
-
-          //writing to newFullMap (yes this is nessisary it breaks otherwise)
-          for (int i = 0; (i + 1) * (j + 1) <= fullMapColor.Count * fullMapColor[0].Count; i++)
-          {
-
-              //checks if page wrap
-              if (i + 1 != fullMapColor[0].Count)
-              {
-                  //checks if is outside or array range
-
-                  if (j + 1 <= fullMapColor.Count)
-                  {
-
-                      if (i < fullMapColor[j].Count)
-                      {
-                          newFullMapColor[j][i] = fullMapColor[j][i];
-
-                      }
-
-                  }
-              }
-              else
-              {
-                  //resets and goes to next line
-                  j++;
-                  i = 0;
-
-
-                  //Make sure J doesn't go out of bounds
-
-                  if (j + 1 <= fullMapColor.Count)
-                  {
-
-                      if (i < fullMapColor[j].Count)
-                      {
-                          newFullMapColor[j][i] = fullMapColor[j][i];
-                      }
-
-                  }
-              }
-
-
-
-
-
-          }
-
-
-
-
-
-          newFullMapColor[y][x] = change;
-
-
-          return newFullMapColor;
-      }
-
-      }
+}

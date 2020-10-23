@@ -10,17 +10,18 @@ using static KeyInputClass;
 using static OnScreenTextAugmentClass;
 using static PlayerMoveClass;
 using static ReadMapInputClass;
+using DragonHeartWithGit.DragonHeartReplit;
 using System.Text;
 
 class PlayerMoveClass
 {
 
-public static int[] charMove(Player Player1, ConsoleKey input, List<List<string>> fullMap, bool ghost)
+    public static int[] charMove(Player Player1, ConsoleKey input, List<List<string>> fullMap, bool ghost, Keybinds keybind)
     {
 
 
         //Checks input and moves accordingly
-        if (input == ConsoleKey.W)
+        if (input == keybind.up)
         {
             if (Player1.charXY[1] >= 1)
             {
@@ -28,7 +29,7 @@ public static int[] charMove(Player Player1, ConsoleKey input, List<List<string>
                     Player1.charXY[1] -= 1;
             }
         }
-        else if (input == ConsoleKey.A)
+        else if (input == keybind.left)
         {
             if (Player1.charXY[0] >= 1)
             {
@@ -36,7 +37,7 @@ public static int[] charMove(Player Player1, ConsoleKey input, List<List<string>
                     Player1.charXY[0] -= 1;
             }
         }
-        else if (input == ConsoleKey.S)
+        else if (input == keybind.down)
         {
             if (Player1.charXY[1] < fullMap.Count-1)
             {
@@ -44,7 +45,7 @@ public static int[] charMove(Player Player1, ConsoleKey input, List<List<string>
                     Player1.charXY[1] += 1;
             }
         }
-        else if (input == ConsoleKey.D)
+        else if (input == keybind.right)
         {
             if (Player1.charXY[0] < fullMap[0].Count-1)
             {
