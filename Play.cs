@@ -40,7 +40,7 @@ class PlayClass
     fullMapColorOrig = fullMapColor;
 
     //the zoom of the map, in the length of one side, make sure it's odd
-    int mapZoom = 11;
+    int mapZoom = 21;
     bool onTitleScreen = true;
     bool ghost;
 
@@ -89,6 +89,7 @@ class PlayClass
 
           while (true)
           {
+              fullMap = fullMapOrig;
 
               //prioirty order for inputs: WASD, paint commands, explicit commands, unnamed command
               var commandInput2 = KeyInput();
@@ -98,6 +99,15 @@ class PlayClass
                   commandInput == ConsoleKey.S || commandInput == ConsoleKey.D)
               {
                   //move
+
+                  if (placeBlock == true)
+                  {
+                      fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0], Player1.charXY[1], Player1.name);
+                  }
+                  if (placeColor == true)
+                  {
+                      fullMapColorOrig = mapAugmentColor(fullMapColorOrig, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
+                  }
 
                   int[] prevCharXY = { 1, 0 };
                   prevCharXY[1] = Player1.charXY[1];
@@ -126,14 +136,8 @@ class PlayClass
 
                   }
 
-                  if (placeBlock == true)
-                  {
-                      fullMapOrig = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
-                  }
-                  if (placeColor == true)
-                  {
-                      fullMapColorOrig = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
-                  }
+                  
+
                   placeColor = false;
                   placeBlock = false;
 
@@ -163,18 +167,74 @@ class PlayClass
               }
               else if (commandInput == ConsoleKey.Q || commandInput == ConsoleKey.E)
               {
-                  //place/paint block
+                        //place/paint block
 
                   if (commandInput == ConsoleKey.E)
-                      placeBlock = true;
-                  placeColor = true;
-
+                  {
+                            placeBlock = true;
+                            placeColor = true;
+                  }
                   if (commandInput == ConsoleKey.Q)
                   {
                       placeColor = true;
                   }
+                  
+
+              }
+
+              else if (commandInput == ConsoleKey.L)
+              {
+                        int lineLength = 0;
+                        int direction = 0;
+                        // north = 1, east 2, south 3, west 0
+
+                        Console.Clear();
+                        Console.WriteLine("(L)ine and (S)quare Drawing.");
+
+                        commandInput = KeyInput().Key;
+
+                        if(commandInput == ConsoleKey.L)
+                        {
+                            Console.Write("input the length first, then the " +
+                                "direction of line. It will draw starting with " +
+                                "the square next to you. \n length: ");
+                            lineLength = int.Parse(Console.ReadLine());
+                            Console.Write("\n north = 1, east 2, south 3, west 0 direction: ");
+                            direction = int.Parse(Console.ReadLine());
+                            for(int i = 0; i < lineLength; i++)
+                            {
+                                if (direction == 0)
+                                {
+                                    fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0] - i,
+                                        Player1.charXY[1], Player1.name);
+                                    fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
+                                        Player1.charXY[0] - i, Player1.charXY[1], Player1.nameColor);
+                                }
+                                if (direction == 1)
+                                {
+                                    fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0],
+                                        Player1.charXY[1] - i, Player1.name);
+                                    fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
+                                        Player1.charXY[0], Player1.charXY[1] - i, Player1.nameColor);
+                                }
+                                if (direction == 2)
+                                {
+                                    fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0] + i,
+                                        Player1.charXY[1], Player1.name);
+                                    fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
+                                        Player1.charXY[0] + i, Player1.charXY[1], Player1.nameColor);
+                                }
+                                if (direction == 3)
+                                {
+                                    fullMapOrig = mapAugment(fullMapOrig, Player1.charXY[0] + i,
+                                        Player1.charXY[1] - i, Player1.name);
+                                    fullMapColorOrig = mapAugmentColor(fullMapColorOrig,
+                                        Player1.charXY[0], Player1.charXY[1] - i, Player1.nameColor);
+                                }
+                            }
 
 
+                        }
               }
               else if (commandInput == ConsoleKey.Escape)
               {
