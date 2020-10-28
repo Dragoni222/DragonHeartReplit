@@ -1,11 +1,14 @@
 /*
 TO DO:
+  To go over with Judson
+  -Possibly using daugher classes for items/weapons
+  -
+
   Right now:
-  move combat log to the right side of map(maybe)(skip for now)
-  Keybinds(print and remake in menu)
+  -move combat log to the right side of map(maybe)(skip for now)
+  -build items and item inventory/weapon inventory.
 
   Future plan:
--Make printout of stats using Player object(done)
 -Build inventory system
 -Build Weapons objects (use one object for each weapon, when instaciating add
   randomness)

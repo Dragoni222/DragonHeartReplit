@@ -11,8 +11,11 @@ using static OnScreenTextAugmentClass;
 using static PlayerMoveClass;
 using static ReadMapInputClass;
 using static DragonHeartWithGit.DragonHeartReplit.ChangeKeybindsClass;
+using static DragonHeartWithGit.DragonHeartReplit.InventoryMenuClass;
+using static DragonHeartWithGit.DragonHeartReplit.SwingWeaponClass;
 using System.Text;
 using DragonHeartWithGit.DragonHeartReplit;
+
 
 class PlayClass
 {
@@ -27,6 +30,8 @@ class PlayClass
         Keybinds keybindsMapMaker = new Keybinds(ConsoleKey.Escape, ConsoleKey.W,
             ConsoleKey.S, ConsoleKey.A, ConsoleKey.D, ConsoleKey.T, ConsoleKey.Y,
             ConsoleKey.E, ConsoleKey.Q, ConsoleKey.L);
+
+        
         
 
         for (int o = 1; o <= colorChangeID.Length; o++)
@@ -50,7 +55,7 @@ class PlayClass
 
         while (onTitleScreen == true)
         {
-            Console.WriteLine("Enter password for dev map maker, or settings for settings");
+            Console.WriteLine("Enter password for dev map maker, play to play, or settings for settings");
             string readLine = Console.ReadLine();
 
             //to skip
@@ -260,7 +265,7 @@ class PlayClass
                     else if (commandInput == keybindsMapMaker.menu)
                     {
                         Console.Clear();
-                        Console.WriteLine("(P)rint \n" + "Print (C)olor \n" + "(K)eybinds");
+                        Console.WriteLine("(P)rint \n" + "Print (C)olor \n" + "(K)eybinds \n (I)nvenotry");
 
                         //menu
                         commandInput2 = KeyInput();
@@ -330,6 +335,11 @@ class PlayClass
                             keybindsMapMaker = ChangeKeybinds(keybindsMapMaker);
                         }
 
+                        if(commandInput == ConsoleKey.I)
+                        {
+                            Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor);
+                        }
+
                     }
                     //what is written below the map
                     //combat log inputs
@@ -340,6 +350,213 @@ class PlayClass
 
                     //player stats
                     onScreenText = onScreenTextAugment(onScreenText, $"HP: {Player1.hp} " +  $"Mana: {Player1.mana}", 1);
+
+                    //keybinds 1
+                    onScreenText = onScreenTextAugment(onScreenText, "Keybinds: open menu     change block      change block color    place block    paint block   make line/square", 2);
+
+                    //keybinds 2
+                    onScreenText = onScreenTextAugment(onScreenText, $"            {keybindsMapMaker.menu.ToString()}           {keybindsMapMaker.changeName.ToString()}                       {keybindsMapMaker.changeNameColor.ToString()}                  {keybindsMapMaker.placeBlock.ToString()}               {keybindsMapMaker.placeColor.ToString()}              {keybindsMapMaker.makeLineSquare.ToString()}", 3);
+
+
+                    //what color the things below the map are (original, color, priority, start, end, colorChangeID)
+                    onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "red", 1, 5, 4 + Player1.hp.ToString().Length, colorChangeID);
+                    colorChangeID[0]++;
+
+                    onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "blue", 1, 12 + Player1.hp.ToString().Length, 12 + Player1.hp.ToString().Length + 4 + Player1.hp.ToString().Length, colorChangeID);
+                    colorChangeID[0]++;
+
+                    drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor);
+
+                    onScreenTextColor = colorChangeIDReset1(onScreenTextColor);
+                    colorChangeID = colorChangeIDReset2(colorChangeID);
+
+                }
+            }
+
+            if(readLine == "Play")
+            {
+                //prints map
+                ghost = false;
+
+                fullMap = mapAugment(fullMapOrig, Player1.charXY[0], Player1.charXY[1], Player1.name);
+                fullMapColor = mapAugmentColor(fullMapColorOrig, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
+
+                drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor);
+
+                
+
+                while (true)
+                {
+                    fullMap = fullMapOrig;
+
+                    //prioirty order for inputs: WASD, paint commands, explicit commands, unnamed command
+                    
+                    var commandInput = KeyInput().Key;
+
+                    if (commandInput == keybindsMapMaker.up || commandInput == keybindsMapMaker.left || commandInput == keybindsMapMaker.down || commandInput == keybindsMapMaker.right)
+                    {
+                        //move
+                        
+
+                        int[] prevCharXY = {
+              1,
+              0
+            };
+                        prevCharXY[1] = Player1.charXY[1];
+                        prevCharXY[0] = Player1.charXY[0];
+
+                        Player1.charXY = charMove(Player1, commandInput, fullMap, ghost, keybindsMapMaker);
+
+                        if (Player1.charXY[1] == prevCharXY[1] && Player1.charXY[0] == prevCharXY[0])
+                        {
+                            onScreenText = onScreenTextAugment(onScreenText, "you cannot move there", 13);
+                            onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "red", 12, 1, 21, colorChangeID);
+                        }
+
+                        fullMap = mapAugment(fullMap, prevCharXY[0], prevCharXY[1], fullMapOrig[prevCharXY[1]][prevCharXY[0]]);
+                        fullMapColor = mapAugmentColor(fullMapColor, prevCharXY[0], prevCharXY[1], fullMapColorOrig[prevCharXY[1]][prevCharXY[0]]);
+
+                        fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
+                        fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
+
+                    }
+
+                    else if (commandInput == keybindsMapMaker.changeName)
+                    {
+                        //set placeable block
+                        Player1.name = changeName();
+                        //redraw character
+                        fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
+
+                        //set paint
+                        Player1.nameColor = changeNameColor();
+                        //redraw character
+                        fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
+
+                    }
+                    
+                    else if(commandInput == ConsoleKey.J)
+                    {
+                        
+                        fullMap = SwingWeapon2(Player1, 1, fullMap);
+                        fullMapColor = SwingWeapon3(Player1, 1, fullMapColor);
+                        Player1 = SwingWeapon1(Player1, 1);
+
+                        if (Player1.equip1.durability == 0)
+                        {
+                            onScreenText = onScreenTextAugment(onScreenText, $"Your {Player1.equip1.name} broke.", 13);
+                            onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 13, 5, 100, colorChangeID);
+                            Player1.equip1 = new Weapon(10000, "bludge", "Fists",
+                                "1d2",new List<List<int>>() { new List<int>(){0,1,0 },
+                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} });
+                        }
+
+                        
+                    }
+                    else if (commandInput == ConsoleKey.K)
+                    {
+                        fullMap = SwingWeapon2(Player1, 2, fullMap);
+                        fullMapColor = SwingWeapon3(Player1, 2, fullMapColor);
+                        Player1 = SwingWeapon1(Player1, 2);
+
+                        if (Player1.equip2.durability == 0)
+                        {
+                            onScreenText = onScreenTextAugment(onScreenText, $"Your {Player1.equip2.name} broke.", 13);
+                            onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 13, 5, 100, colorChangeID);
+                            Player1.equip2 = new Weapon(10000, "bludge", "Fists", "1d2",
+                                new List<List<int>>() { new List<int>(){0,1,0 },
+                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} });
+                        }
+                    }
+
+                    else if (commandInput == keybindsMapMaker.menu)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("(P)rint \n" + "Print (C)olor \n" + "(K)eybinds \n (I)nvenotry");
+
+                        //menu
+                        
+                        commandInput = KeyInput().Key;
+
+                        if (commandInput == ConsoleKey.P)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("The current map printout is: ");
+                            Console.Write("{");
+                            for (int i = 1; i <= fullMap.Count; i++)
+                            {
+                                Console.Write("{");
+                                for (int j = 1; j <= fullMap[0].Count; j++)
+                                {
+                                    Console.Write($"\"{fullMapOrig[j - 1][i - 1]}\",");
+                                }
+                                Console.Write("},");
+                            }
+                            Console.WriteLine("};");
+                            bool returnFromLoop = false;
+                            while (returnFromLoop == false)
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("etc to return to game");
+
+                               
+                                commandInput = KeyInput().Key;
+
+                                if (commandInput == ConsoleKey.Escape) returnFromLoop = true;
+                                else Console.WriteLine("incorrect input");
+                            }
+
+                        }
+
+                        if (commandInput == ConsoleKey.C)
+                        {
+                            Console.Clear();
+                            Console.WriteLine("The current color map printout is: ");
+                            Console.Write("{");
+                            for (int i = 1; i <= fullMapColor.Count; i++)
+                            {
+                                Console.Write("{");
+                                for (int j = 1; j <= fullMapColor[0].Count; j++)
+                                {
+                                    Console.Write($"\"{convertColorToString(fullMapColorOrig[j - 1][i - 1])}\", ");
+                                }
+                                Console.Write("}, ");
+                            }
+                            Console.WriteLine("};");
+                            bool returnFromLoop = false;
+                            while (returnFromLoop == false)
+                            {
+                                Console.WriteLine();
+                                Console.WriteLine("etc to return to game");
+
+                                
+                                commandInput = KeyInput().Key;
+
+                                if (commandInput == ConsoleKey.Escape) returnFromLoop = true;
+                                else Console.WriteLine("incorrect input");
+                            }
+
+                        }
+                        if (commandInput == ConsoleKey.K)
+                        {
+                            keybindsMapMaker = ChangeKeybinds(keybindsMapMaker);
+                        }
+
+                        if (commandInput == ConsoleKey.I)
+                        {
+                            Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor);
+                        }
+
+                    }
+                    //what is written below the map
+                    //combat log inputs
+                    onScreenText = onScreenTextAugment(onScreenText, commandInput.ToString(), 13);
+
+                    //debug
+                    onScreenText = onScreenTextAugment(onScreenText, debug, 14);
+
+                    //player stats
+                    onScreenText = onScreenTextAugment(onScreenText, $"HP: {Player1.hp} " + $"Mana: {Player1.mana}", 1);
 
                     //keybinds 1
                     onScreenText = onScreenTextAugment(onScreenText, "Keybinds: open menu     change block      change block color    place block    paint block   make line/square", 2);

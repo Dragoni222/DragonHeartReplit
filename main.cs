@@ -10,6 +10,7 @@ using static KeyInputClass;
 using static OnScreenTextAugmentClass;
 using static PlayerMoveClass;
 using static ReadMapInputClass;
+using DragonHeartWithGit.DragonHeartReplit;
 using System.Text;
 
 /*
@@ -23,12 +24,24 @@ using System.Text;
       //main
       public static void Main(string[] args)
       {
+        Weapon woodenShortsword = new Weapon(100, "slash", "wooden shortsword",
+            "1d6", new List<List<int>>{ new List<int>(){1,2,1},
+                new List<int>() { 0, 1, 0 }, new List<int>() { 0, 0, 0 } });
 
-          List<List<string>> fullMap = new List<List<string>>();
+        Weapon woodenClub = new Weapon(100, "bludge", "wooden club",
+            "1d5", new List<List<int>>{ new List<int>(){1,2,1},
+                new List<int>() { 0, 1, 0 }, new List<int>() { 0, 0, 0 } });
+
+
+
+        List<List<string>> fullMap = new List<List<string>>();
           List<List<string>> fullMapOrig = new List<List<string>>();
 
-          //if not, add a base map color so the game doesn't break
-          if (fullMap.Count == 0)
+        Items[] playerStartingItems = { new Items(1, "Potion", "Health Potion"), new Items(2, "Potion", "Mana Potion"), new Items(4, "Food", "Roll") };
+
+        Weapon[] playerStartingWeapons = { woodenShortsword, woodenClub };
+        //if not, add a base map color so the game doesn't break
+        if (fullMap.Count == 0)
           {
               for (int j = 0; j < 100; j++)
               {
@@ -53,9 +66,14 @@ using System.Text;
 
 
 
-          Player Player1 = new Player(100, "Y", new int[] { 50, 50 }, ConsoleColor.DarkGreen, 100);
+          Player Player1 = new Player(100, "Y", new int[] { 50, 50 },
+              ConsoleColor.DarkGreen, 100, playerStartingItems, playerStartingWeapons,
+              playerStartingWeapons[0], playerStartingWeapons[1]);
 
-          List<List<System.ConsoleColor>> fullMapColor = new List<List<System.ConsoleColor>>();
+        Console.WriteLine(Player1.equip1.name);
+        Console.ReadLine();
+
+        List<List<System.ConsoleColor>> fullMapColor = new List<List<System.ConsoleColor>>();
           List<List<System.ConsoleColor>> fullMapColorOrig = new List<List<System.ConsoleColor>>();
 
 
