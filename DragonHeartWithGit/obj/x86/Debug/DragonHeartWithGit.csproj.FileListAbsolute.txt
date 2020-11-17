@@ -1,0 +1,6 @@
+/Users/10212005/Projects/DragonHeartWithGit/DragonHeartWithGit/bin/Debug/DragonHeartWithGit.exe
+/Users/10212005/Projects/DragonHeartWithGit/DragonHeartWithGit/bin/Debug/DragonHeartWithGit.pdb
+/Users/10212005/Projects/DragonHeartWithGit/DragonHeartWithGit/obj/x86/Debug/DragonHeartWithGit.csprojAssemblyReference.cache
+/Users/10212005/Projects/DragonHeartWithGit/DragonHeartWithGit/obj/x86/Debug/DragonHeartWithGit.csproj.CoreCompileInputs.cache
+/Users/10212005/Projects/DragonHeartWithGit/DragonHeartWithGit/obj/x86/Debug/DragonHeartWithGit.exe
+/Users/10212005/Projects/DragonHeartWithGit/DragonHeartWithGit/obj/x86/Debug/DragonHeartWithGit.pdb
