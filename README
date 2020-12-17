@@ -1,0 +1,33 @@
+/*
+TO DO:
+  To go over with Judson
+  -Possibly using daugher classes for items/weapons
+  -
+
+  Right now:
+  -move combat log to the right side of map(maybe)(skip for now)
+  -build items and item inventory/weapon inventory.
+    -Make a fullMapHighlights for temporary highlights
+
+  Future plan:
+-Build inventory system
+-Build Weapons objects (use one object for each weapon, when instaciating add
+  randomness)
+-allow for swinging of weapons/shooting of bows
+-add keybinds system
+-build extra features in map builder (classification of specific blocks,
+  add areas feature, maybe add line maker and area filler, add printing)
+-add timer
+-add basic combat dummies
+-add real enemies(loot, maybe basic ai)
+0.5
+-add magic
+-add dialog
+-add subareas(buildings, caves, etc.)
+-add title screen/playability/update menus with graphics
+-build main storyline/dialog
+1.0
+-add talents
+-add side quests
+-add large side quests(alternate story paths)
+*/
