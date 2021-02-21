@@ -170,9 +170,9 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
 
 
-                                if (input == ConsoleKey.D)
+                                if (inputWeapons == ConsoleKey.D)
                                 {
-                                    if (Player1.weaponInventory[selected - 1].equipped == false)
+                                    if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
                                     {
                                         Player1.weaponInventory[selected - 1] =
                                             new Weapon(10000, "bludge", "Fists",
@@ -188,16 +188,16 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                         Console.Clear();
                                     }
                                 }
-                                if (input == ConsoleKey.E)
+                                if (inputWeapons == ConsoleKey.E)
                                 {
                                     
-                                    if (Player1.weaponInventory[selected - 1].equipped == false)
+                                    if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
                                     {
                                         Console.Clear();
                                         Console.WriteLine("Which hand do you want to equip this weapon in?(L or R)");
-                                        input = KeyInput().Key;
+                                        inputWeapons = KeyInput().Key;
                                         Console.Clear();
-                                        if(input == ConsoleKey.L)
+                                        if(inputWeapons == ConsoleKey.L)
                                         {
                                             for(int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
                                             {
@@ -207,11 +207,11 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                                     Player1.weaponInventory[weapon].equipped = false;
                                                 }
                                             }
-                                            Player1.weaponInventory[selected - 1].equipped = true;
-                                            Player1.equip1 = Player1.weaponInventory[selected - 1];
+                                            Player1.weaponInventory[selectedWeapons - 1].equipped = true;
+                                            Player1.equip1 = Player1.weaponInventory[selectedWeapons - 1];
 
                                         }
-                                        if (input == ConsoleKey.R)
+                                        if (inputWeapons == ConsoleKey.R)
                                         {
                                             for (int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
                                             {
@@ -221,8 +221,8 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                                     Player1.weaponInventory[weapon].equipped = false;
                                                 }
                                             }
-                                            Player1.weaponInventory[selected - 1].equipped = true;
-                                            Player1.equip2 = Player1.weaponInventory[selected - 1];
+                                            Player1.weaponInventory[selectedWeapons - 1].equipped = true;
+                                            Player1.equip2 = Player1.weaponInventory[selectedWeapons - 1];
                                         }
                                     }
                                     else
@@ -302,7 +302,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                 }
             }
-            onScreenTextPrint(onScreenText, onScreenTextColor);
+            //onScreenTextPrint(onScreenText, onScreenTextColor);
         }
 
 
@@ -348,7 +348,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                 }
             }
-            onScreenTextPrint(onScreenText, onScreenTextColor);
+            //onScreenTextPrint(onScreenText, onScreenTextColor);
         }
         
     }

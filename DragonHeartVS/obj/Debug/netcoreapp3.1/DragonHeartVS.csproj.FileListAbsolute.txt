@@ -1,0 +1,13 @@
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\obj\Debug\netcoreapp3.1\DragonHeartVS.csprojAssemblyReference.cache
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\obj\Debug\netcoreapp3.1\DragonHeartVS.AssemblyInfoInputs.cache
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\obj\Debug\netcoreapp3.1\DragonHeartVS.AssemblyInfo.cs
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\obj\Debug\netcoreapp3.1\DragonHeartVS.csproj.CoreCompileInputs.cache
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\bin\Debug\netcoreapp3.1\DragonHeartVS.exe
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\bin\Debug\netcoreapp3.1\DragonHeartVS.deps.json
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\bin\Debug\netcoreapp3.1\DragonHeartVS.runtimeconfig.json
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\bin\Debug\netcoreapp3.1\DragonHeartVS.runtimeconfig.dev.json
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\bin\Debug\netcoreapp3.1\DragonHeartVS.dll
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\bin\Debug\netcoreapp3.1\DragonHeartVS.pdb
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\obj\Debug\netcoreapp3.1\DragonHeartVS.dll
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\obj\Debug\netcoreapp3.1\DragonHeartVS.pdb
+C:\Users\Joel\source\repos\DragonHeart\DragonHeartVS\obj\Debug\netcoreapp3.1\DragonHeartVS.genruntimeconfig.cache
