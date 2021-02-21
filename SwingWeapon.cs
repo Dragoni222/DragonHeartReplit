@@ -63,12 +63,12 @@ namespace DragonHeartWithGit.DragonHeartReplit
         public static List<List<string>> SwingWeapon2(Player Player1,
             int weapon, List<List<string>> fullMap)
         {
-            //applies map changes for the crazyer weapons
+            //applies map changes for the crazier weapons
             return fullMap;
         }
 
         public static List<List<System.ConsoleColor>> SwingWeapon3(Player Player1,
-            int weapon, List<List<System.ConsoleColor>> fullMapColor)
+            int weapon, List<List<System.ConsoleColor>> fullMapHighColor)
         {
             //applies the color on the map with crazier changes, along with the range indicator.
             int playerX = 1;
@@ -89,7 +89,15 @@ namespace DragonHeartWithGit.DragonHeartReplit
                 }
                 if (Player1.direction == 1)
                 {
+                    for (int i = 0; i <= Player1.equip1.range.Count - 1; i++)
+                    {
+                        for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
+                        {
 
+                            savedRange[j][i] = Player1.equip1.range[j][i];
+
+                        }
+                    }
                 }
                 else if (Player1.direction == 2)
                 {
@@ -97,31 +105,9 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     {
                         for (int j = 0; j <= Player1.equip1.range[0].Count-1; j++)
                         {
-                            if (Player1.equip1.range[i][j] == 0)
-                            {
-
-                            }
-                            else
-                            {
-                                savedRange[j][(Player1.equip1.range[0].Count)-i] = Player1.equip1.range[i][j];
-                            }
-                        }
-                    }
-                }
-                else if (Player1.direction == 3)
-                {
-                    for (int i = 0; i <= Player1.equip1.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
-                        {
-                            if (Player1.equip1.range[i][j] == 0)
-                            {
-
-                            }
-                            else
-                            {
-                                savedRange[(Player1.equip1.range[0].Count)- i][j] = Player1.equip1.range[i][j];
-                            }
+                            
+                            savedRange[j][(Player1.equip1.range[0].Count-1)-i] = Player1.equip1.range[i][j];
+                            
                         }
                     }
                 }
@@ -131,19 +117,29 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     {
                         for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
                         {
-                            if (Player1.equip1.range[i][j] == 0)
-                            {
-
-                            }
-                            else
-                            {
-                                savedRange[j][i] = Player1.equip1.range[i][j];
-                            }
+                            
+                            savedRange[(Player1.equip1.range[0].Count-1)- i][j] = Player1.equip1.range[i][j];
+                            
+                        }
+                    }
+                }
+                else if (Player1.direction == 3)
+                {
+                    for (int i = 0; i <= Player1.equip1.range.Count - 1; i++)
+                    {
+                        for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
+                        {
+                        
+                            savedRange[j][i] = Player1.equip1.range[i][j];
+                            
                         }
                     }
                 }
 
-                Player1.equip1.range = savedRange;
+                
+                
+
+
                 for (int y = 0; y < Player1.equip1.range.Count; y++)
                 {
                     for (int x = 0; x < Player1.equip1.range[y].Count; x++)
@@ -156,19 +152,19 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                     }
                 }
-                for (int y = 0; y < Player1.equip1.range.Count; y++)
+                for (int y = 0; y <= Player1.equip1.range.Count-1; y++)
                 {
-                    for (int x = 0; x < Player1.equip1.range[y].Count; x++)
+                    for (int x = 0; x <= Player1.equip1.range[y].Count-1; x++)
                     {
-                        if (Player1.equip1.range[y][x] == 1)
+                        if (savedRange[y][x] == 1)
                         {
-                            fullMapColor = mapAugmentColor(fullMapColor,
+                            fullMapHighColor = mapAugmentColor(fullMapHighColor,
                                 Player1.charXY[0] + (x - playerX),
                                 Player1.charXY[1] + (y - playerY), ConsoleColor.Green);
                         }
-                        else if (Player1.equip1.range[y][x] == 2)
+                        else if (savedRange[y][x] == 2)
                         {
-                            fullMapColor = mapAugmentColor(fullMapColor,
+                            fullMapHighColor = mapAugmentColor(fullMapHighColor,
                                 Player1.charXY[0] + (x - playerX),
                                 Player1.charXY[1] + (y - playerY), ConsoleColor.DarkGreen);
                         }
@@ -191,7 +187,15 @@ namespace DragonHeartWithGit.DragonHeartReplit
                 }
                 if (Player1.direction == 1)
                 {
+                    for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
+                    {
+                        for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
+                        {
 
+                            savedRange[j][i] = Player1.equip2.range[j][i];
+
+                        }
+                    }
                 }
                 else if (Player1.direction == 2)
                 {
@@ -199,31 +203,9 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     {
                         for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
                         {
-                            if (Player1.equip2.range[i][j] == 0)
-                            {
 
-                            }
-                            else
-                            {
-                                savedRange[j][(Player1.equip2.range[0].Count) - i] = Player1.equip2.range[i][j];
-                            }
-                        }
-                    }
-                }
-                else if (Player1.direction == 3)
-                {
-                    for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
-                        {
-                            if (Player1.equip2.range[i][j] == 0)
-                            {
+                            savedRange[j][(Player1.equip2.range[0].Count - 1) - i] = Player1.equip2.range[i][j];
 
-                            }
-                            else
-                            {
-                                savedRange[(Player1.equip2.range[0].Count) - i][j] = Player1.equip2.range[i][j];
-                            }
                         }
                     }
                 }
@@ -233,19 +215,29 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     {
                         for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
                         {
-                            if (Player1.equip2.range[i][j] == 0)
-                            {
 
-                            }
-                            else
-                            {
-                                savedRange[j][i] = Player1.equip2.range[i][j];
-                            }
+                            savedRange[(Player1.equip2.range[0].Count - 1) - i][j] = Player1.equip2.range[i][j];
+
+                        }
+                    }
+                }
+                else if (Player1.direction == 3)
+                {
+                    for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
+                    {
+                        for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
+                        {
+
+                            savedRange[j][i] = Player1.equip2.range[i][j];
+
                         }
                     }
                 }
 
-                Player1.equip2.range = savedRange;
+
+
+
+
                 for (int y = 0; y < Player1.equip2.range.Count; y++)
                 {
                     for (int x = 0; x < Player1.equip2.range[y].Count; x++)
@@ -258,33 +250,19 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                     }
                 }
-
-
-                for (int y = 0; y < Player1.equip2.range.Count; y++)
+                for (int y = 0; y <= Player1.equip2.range.Count - 1; y++)
                 {
-                    for (int x = 0; x < Player1.equip2.range[y].Count; x++)
+                    for (int x = 0; x <= Player1.equip2.range[y].Count - 1; x++)
                     {
-                        if (Player1.equip2.range[y][x] == -1)
+                        if (savedRange[y][x] == 1)
                         {
-                            playerX = x;
-                            playerY = y;
-                        }
-
-                    }
-                }
-                for (int y = 0; y < Player1.equip2.range.Count; y++)
-                {
-                    for (int x = 0; x < Player1.equip2.range[y].Count; x++)
-                    {
-                        if (Player1.equip2.range[y][x] == 1)
-                        {
-                            fullMapColor = mapAugmentColor(fullMapColor,
+                            fullMapHighColor = mapAugmentColor(fullMapHighColor,
                                 Player1.charXY[0] + (x - playerX),
                                 Player1.charXY[1] + (y - playerY), ConsoleColor.Green);
                         }
-                        else if (Player1.equip2.range[y][x] == 2)
+                        else if (savedRange[y][x] == 2)
                         {
-                            fullMapColor = mapAugmentColor(fullMapColor,
+                            fullMapHighColor = mapAugmentColor(fullMapHighColor,
                                 Player1.charXY[0] + (x - playerX),
                                 Player1.charXY[1] + (y - playerY), ConsoleColor.DarkGreen);
                         }
@@ -295,8 +273,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
             }
 
 
-
-            return fullMapColor;
+            return fullMapHighColor;
         }
 
 

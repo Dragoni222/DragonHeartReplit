@@ -57,6 +57,8 @@ class PlayClass
 
         while (onTitleScreen == true)
         {
+
+            
             Console.WriteLine("Enter password for dev map maker, play to play, or settings for settings");
             string readLine = Console.ReadLine();
 
@@ -280,82 +282,86 @@ class PlayClass
 
                     else if (commandInput == keybindsMapMaker.menu)
                     {
-                        Console.Clear();
-                        Console.WriteLine("(P)rint \n" + "Print (C)olor \n" + "(K)eybinds \n (I)nvenotry");
-
-                        //menu
-                        commandInput2 = KeyInput();
-                        commandInput = commandInput2.Key;
-
-                        if (commandInput == ConsoleKey.P)
+                        bool backToMenu = true;
+                        while (backToMenu == true)
                         {
                             Console.Clear();
-                            Console.WriteLine("The current map printout is: ");
-                            Console.Write("{");
-                            for (int i = 1; i <= fullMap.Count; i++)
+                            Console.WriteLine("(P)rint \n" + "Print (C)olor \n" + "(K)eybinds \n (I)nvenotry");
+
+                            //menu
+                            commandInput2 = KeyInput();
+                            commandInput = commandInput2.Key;
+
+                            if (commandInput == ConsoleKey.P)
                             {
+                                Console.Clear();
+                                Console.WriteLine("The current map printout is: ");
                                 Console.Write("{");
-                                for (int j = 1; j <= fullMap[0].Count; j++)
+                                for (int i = 1; i <= fullMap.Count; i++)
                                 {
-                                    Console.Write($"\"{fullMapOrig[j - 1][i - 1]}\",");
+                                    Console.Write("{");
+                                    for (int j = 1; j <= fullMap[0].Count; j++)
+                                    {
+                                        Console.Write($"\"{fullMapOrig[j - 1][i - 1]}\",");
+                                    }
+                                    Console.Write("},");
                                 }
-                                Console.Write("},");
+                                Console.WriteLine("};");
+                                bool returnFromLoop = false;
+                                while (returnFromLoop == false)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("etc to return to game");
+
+                                    commandInput2 = KeyInput();
+                                    commandInput = commandInput2.Key;
+
+                                    if (commandInput == ConsoleKey.Escape) returnFromLoop = true;
+                                    else Console.WriteLine("incorrect input");
+                                }
+
                             }
-                            Console.WriteLine("};");
-                            bool returnFromLoop = false;
-                            while (returnFromLoop == false)
+
+                            if (commandInput == ConsoleKey.C)
                             {
-                                Console.WriteLine();
-                                Console.WriteLine("etc to return to game");
-
-                                commandInput2 = KeyInput();
-                                commandInput = commandInput2.Key;
-
-                                if (commandInput == ConsoleKey.Escape) returnFromLoop = true;
-                                else Console.WriteLine("incorrect input");
-                            }
-
-                        }
-
-                        if (commandInput == ConsoleKey.C)
-                        {
-                            Console.Clear();
-                            Console.WriteLine("The current color map printout is: ");
-                            Console.Write("{");
-                            for (int i = 1; i <= fullMapColor.Count; i++)
-                            {
+                                Console.Clear();
+                                Console.WriteLine("The current color map printout is: ");
                                 Console.Write("{");
-                                for (int j = 1; j <= fullMapColor[0].Count; j++)
+                                for (int i = 1; i <= fullMapColor.Count; i++)
                                 {
-                                    Console.Write($"\"{convertColorToString(fullMapColorOrig[j - 1][i - 1])}\", ");
+                                    Console.Write("{");
+                                    for (int j = 1; j <= fullMapColor[0].Count; j++)
+                                    {
+                                        Console.Write($"\"{convertColorToString(fullMapColorOrig[j - 1][i - 1])}\", ");
+                                    }
+                                    Console.Write("}, ");
                                 }
-                                Console.Write("}, ");
+                                Console.WriteLine("};");
+                                bool returnFromLoop = false;
+                                while (returnFromLoop == false)
+                                {
+                                    Console.WriteLine();
+                                    Console.WriteLine("etc to return to game");
+
+                                    commandInput2 = KeyInput();
+                                    commandInput = commandInput2.Key;
+
+                                    if (commandInput == ConsoleKey.Escape) returnFromLoop = true;
+                                    else Console.WriteLine("incorrect input");
+                                }
+
                             }
-                            Console.WriteLine("};");
-                            bool returnFromLoop = false;
-                            while (returnFromLoop == false)
+                            if (commandInput == ConsoleKey.K)
                             {
-                                Console.WriteLine();
-                                Console.WriteLine("etc to return to game");
-
-                                commandInput2 = KeyInput();
-                                commandInput = commandInput2.Key;
-
-                                if (commandInput == ConsoleKey.Escape) returnFromLoop = true;
-                                else Console.WriteLine("incorrect input");
+                                keybindsMapMaker = ChangeKeybinds(keybindsMapMaker);
                             }
 
+                            if (commandInput == ConsoleKey.I)
+                            {
+                                Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor);
+                            }
+                            
                         }
-                        if(commandInput == ConsoleKey.K)
-                        {
-                            keybindsMapMaker = ChangeKeybinds(keybindsMapMaker);
-                        }
-
-                        if(commandInput == ConsoleKey.I)
-                        {
-                            Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor);
-                        }
-
                     }
                     //what is written below the map
                     //combat log inputs
@@ -504,10 +510,11 @@ class PlayClass
                             onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 13, 5, 100, colorChangeID);
                             Player1.equip1 = new Weapon(10000, "bludge", "Fists",
                                 "1d2",new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} });
+                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} }, true);
                         }
 
-                        
+                        fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
+                        fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
                     }
                     else if (commandInput == keybindsMapMaker.swingWeapon2)
                     {
@@ -521,8 +528,11 @@ class PlayClass
                             onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 13, 5, 100, colorChangeID);
                             Player1.equip2 = new Weapon(10000, "bludge", "Fists", "1d2",
                                 new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} });
+                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} },true);
                         }
+
+                        fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
+                        fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
                     }
 
                     else if (commandInput == keybindsMapMaker.menu)
@@ -629,6 +639,7 @@ class PlayClass
                     colorChangeID[0]++;
 
                     drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor, fullMapHighColor);
+                    
                     fullMapHighColor = new List<List<System.ConsoleColor>>();
                     fullMapHighColorOrig = new List<List<System.ConsoleColor>>();
                     if (fullMapHighColor.Count == 0)
@@ -644,7 +655,7 @@ class PlayClass
 
                         }
                     }
-
+                    
                     onScreenTextColor = colorChangeIDReset1(onScreenTextColor);
                     colorChangeID = colorChangeIDReset2(colorChangeID);
 

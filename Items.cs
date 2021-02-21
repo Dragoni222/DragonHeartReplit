@@ -39,15 +39,18 @@ namespace DragonHeartWithGit.DragonHeartReplit
         public string type { get; set; }
         public string damage { get; set; }
         public string name { get; set; }
-        public List<List<int>> range { get; set; } 
+        public List<List<int>> range { get; set; }
+        public bool equipped { get; set; }
 
-        public Weapon(int Durability, string Type, string Name, string Damage, List<List<int>> Range)
+        public Weapon(int Durability, string Type, string Name, string Damage,
+            List<List<int>> Range, bool Equipped)
         {
             durability = Durability;
             type = Type;
             name = Name;
             damage = Damage;
             range = Range;
+            equipped = Equipped;
         }
 
     }

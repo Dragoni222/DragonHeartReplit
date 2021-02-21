@@ -1,23 +1,23 @@
 /*
 TO DO:
   To go over with Judson
-  -Possibly using daugher classes for items/weapons
+  -Possibly using child classes for items/weapons
   -
 
   Right now:
   -move combat log to the right side of map(maybe)(skip for now)
   -build items and item inventory/weapon inventory.
-    -Make a fullMapHighlights for temporary highlights
+ 
 
   Future plan:
 -Build inventory system
 -Build Weapons objects (use one object for each weapon, when instaciating add
   randomness)
--allow for swinging of weapons/shooting of bows
--add keybinds system
+-allow for swinging of weapons/shooting of bows (Kinda Done)
+-add keybinds system(Done)
 -build extra features in map builder (classification of specific blocks,
   add areas feature, maybe add line maker and area filler, add printing)
--add timer
+-add timer(Maybe)
 -add basic combat dummies
 -add real enemies(loot, maybe basic ai)
 0.5
@@ -30,4 +30,27 @@ TO DO:
 -add talents
 -add side quests
 -add large side quests(alternate story paths)
+
+
+
+
+Weapons and Items
+
+
+Weapon fists = new Weapon(10000, "bludge", "Fists",
+                                "1d2",new List<List<int>>() { new List<int>(){0,1,0 },
+                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} }, true);
+
+
+Weapon woodenShortsword = new Weapon(100, "slash", "wooden shortsword",
+            "1d6", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
+                new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},
+            new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true );
+
+Weapon woodenClub = new Weapon(100, "bludge", "wooden club",
+            "1d5", new List<List<int>>{ new List<int>(){1,2,1},
+                new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true );                                
+
 */
+
+
