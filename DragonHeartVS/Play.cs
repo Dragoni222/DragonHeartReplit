@@ -30,7 +30,7 @@ class PlayClass
 
         Keybinds keybindsMapMaker = new Keybinds(ConsoleKey.Escape, ConsoleKey.W,
             ConsoleKey.S, ConsoleKey.A, ConsoleKey.D, ConsoleKey.T, ConsoleKey.Y,
-            ConsoleKey.E, ConsoleKey.Q, ConsoleKey.L, ConsoleKey.H, ConsoleKey.J);
+            ConsoleKey.E, ConsoleKey.Q, ConsoleKey.L, ConsoleKey.J, ConsoleKey.K);
 
         
         
@@ -444,10 +444,8 @@ class PlayClass
                         //move
                         
 
-                        int[] prevCharXY = {
-              1,
-              0
-            };
+                        int[] prevCharXY = { 1, 0 };
+
                         prevCharXY[1] = Player1.charXY[1];
                         prevCharXY[0] = Player1.charXY[0];
 
@@ -500,7 +498,7 @@ class PlayClass
                     else if(commandInput == keybindsMapMaker.swingWeapon1)
                     {
                         
-                        fullMap = SwingWeapon2(Player1, 1, fullMap);
+                        fullMap = SwingWeapon2(Player1, 1, fullMap, SwingWeapon3(Player1, 1, fullMapHighColor));
                         fullMapHighColor = SwingWeapon3(Player1, 1, fullMapHighColor);
                         Player1 = SwingWeapon1(Player1, 1);
 
@@ -518,7 +516,7 @@ class PlayClass
                     }
                     else if (commandInput == keybindsMapMaker.swingWeapon2)
                     {
-                        fullMap = SwingWeapon2(Player1, 2, fullMap);
+                        fullMap = SwingWeapon2(Player1, 2, fullMap, SwingWeapon3(Player1, 1, fullMapHighColor));
                         fullMapHighColor = SwingWeapon3(Player1, 2, fullMapHighColor);
                         Player1 = SwingWeapon1(Player1, 2);
 

@@ -39,7 +39,7 @@ Weapons and Items
 
 Weapon fists = new Weapon(10000, "bludge", "Fists",
                                 "1d2",new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} }, true);
+                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
 
 
 Weapon woodenShortsword = new Weapon(100, "slash", "wooden shortsword",

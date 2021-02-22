@@ -12,29 +12,49 @@ using static PlayerMoveClass;
 using static ReadMapInputClass;
 using DragonHeartWithGit.DragonHeartReplit;
 using System.Text;
+using static PremadeWeapons
 
 /*
   (☞ﾟヮﾟ)☞ ☜(ﾟヮﾟ☜)
+
+⠄⠄⠄⢰⣧⣼⣯⠄⣸⣠⣶⣶⣦⣾⠄⠄⠄⠄⡀⠄⢀⣿⣿⠄⠄⠄⢸⡇⠄⠄
+ ⠄⠄⠄⣾⣿⠿⠿⠶⠿⢿⣿⣿⣿⣿⣦⣤⣄⢀⡅⢠⣾⣛⡉⠄⠄⠄⠸⢀⣿⠄
+⠄⠄⢀⡋⣡⣴⣶⣶⡀⠄⠄⠙⢿⣿⣿⣿⣿⣿⣴⣿⣿⣿⢃⣤⣄⣀⣥⣿⣿⠄
+⠄⠄⢸⣇⠻⣿⣿⣿⣧⣀⢀⣠⡌⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⠄
+⠄⢀⢸⣿⣷⣤⣤⣤⣬⣙⣛⢿⣿⣿⣿⣿⣿⣿⡿⣿⣿⡍⠄⠄⢀⣤⣄⠉⠋⣰
+⠄⣼⣖⣿⣿⣿⣿⣿⣿⣿⣿⣿⢿⣿⣿⣿⣿⣿⢇⣿⣿⡷⠶⠶⢿⣿⣿⠇⢀⣤
+⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣿⣿⡇⣿⣿⣿⣿⣿⣿⣷⣶⣥⣴⣿⡗
+⢀⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠄
+⢸⣿⣦⣌⣛⣻⣿⣿⣧⠙⠛⠛⡭⠅⠒⠦⠭⣭⡻⣿⣿⣿⣿⣿⣿⣿⣿⡿⠃⠄
+⠘⣿⣿⣿⣿⣿⣿⣿⣿⡆⠄⠄⠄⠄⠄⠄⠄⠄⠹⠈⢋⣽⣿⣿⣿⣿⣵⣾⠃⠄
+⠄⠘⣿⣿⣿⣿⣿⣿⣿⣿⠄⣴⣿⣶⣄⠄⣴⣶⠄⢀⣾⣿⣿⣿⣿⣿⣿⠃⠄⠄
+⠄⠄⠈⠻⣿⣿⣿⣿⣿⣿⡄⢻⣿⣿⣿⠄⣿⣿⡀⣾⣿⣿⣿⣿⣛⠛⠁⠄⠄⠄
+⠄⠄⠄⠄⠈⠛⢿⣿⣿⣿⠁⠞⢿⣿⣿⡄⢿⣿⡇⣸⣿⣿⠿⠛⠁⠄⠄⠄⠄⠄
+⠄⠄⠄⠄⠄⠄⠄⠉⠻⣿⣿⣾⣦⡙⠻⣷⣾⣿⠃⠿⠋⠁⠄⠄⠄⠄⠄⢀⣠⣴
+⣿⣿⣿⣶⣶⣮⣥⣒⠲⢮⣝⡿⣿⣿⡆⣿⡿⠃⠄⠄⠄⠄⠄⠄⠄⣠⣴⣿⣿⣿
+
 */
 
 
-  class MainClass
+class MainClass
   {
 
     //main
     public static void Main(string[] args)
     {
+        item = PremadeWeapons.fists;
+
         Weapon woodenShortsword = new Weapon(100, "slash", "wooden shortsword",
-            "1d6", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
+            "1d4", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
                 new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},
             new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true );
 
         Weapon woodenClub = new Weapon(100, "bludge", "wooden club",
-            "1d5", new List<List<int>>{ new List<int>(){1,2,1},
+            "1d6", new List<List<int>>{ new List<int>(){1,2,1},
                 new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true );
 
         Weapon woodenKnife = new Weapon(100, "pierce", "wooden knife",
-            "1d5", new List<List<int>>{ new List<int>(){0,2,0},
+            "2d5", new List<List<int>>{ new List<int>(){0,2,0},
                 new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, false);
 
         List<List<string>> fullMap = new List<List<string>>();

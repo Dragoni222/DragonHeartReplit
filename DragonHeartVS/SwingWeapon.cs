@@ -12,6 +12,7 @@ using static PlayerMoveClass;
 using static ReadMapInputClass;
 using static DragonHeartWithGit.DragonHeartReplit.ChangeKeybindsClass;
 using static DragonHeartWithGit.DragonHeartReplit.InventoryMenuClass;
+using static RandomFunctions;
 using System.Text;
 using DragonHeartWithGit.DragonHeartReplit;
 
@@ -61,9 +62,24 @@ namespace DragonHeartWithGit.DragonHeartReplit
         }
 
         public static List<List<string>> SwingWeapon2(Player Player1,
-            int weapon, List<List<string>> fullMap)
+            int weapon, List<List<string>> fullMap, List<List<ConsoleColor>> trueRange)
         {
-            //applies map changes for the crazier weapons
+            var rand = new Random();
+            for(int i = 0; i <=trueRange.Count-1; i++)
+            {
+                for(int j = 0; j <= trueRange.Count - 1; j++)
+                {
+                    if (fullMap[Player1.charXY[0]+(i-(trueRange.Count-1))][Player1.charXY[1]] == "0")
+                    {
+                        if (DamageRandom(Player1.equip1.damage) >= 2)
+                        {
+                            fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], " ");
+                            
+                        }
+                    }
+                }
+            }
+            
             return fullMap;
         }
 

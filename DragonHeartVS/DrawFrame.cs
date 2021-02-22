@@ -32,8 +32,7 @@ class DrawFrameClass
         int j = 0;
 
         //writing map
-        for (int i = 0;
-        (i + 1) * (j + 1) <= zoom * zoom; i++)
+        for (int i = 0; (i + 1) * (j + 1) <= zoom * zoom; i++)
         {
 
             //checks if page wrap
@@ -45,7 +44,8 @@ class DrawFrameClass
 
                     if (i < fullMap[j].Count)
                     {
-                        if (Player1.charXY[1] + j - ((zoom - 1) / 2) >= 0 && Player1.charXY[0] + i - ((zoom - 1) / 2) >= 0 && Player1.charXY[1] + j - ((zoom - 1) / 2) < fullMap[0].Count && Player1.charXY[0] + i - ((zoom - 1) / 2) < fullMap.Count)
+                        if (Player1.charXY[1] + j - ((zoom - 1) / 2) >= 0 && Player1.charXY[0] + i - ((zoom - 1) / 2) >= 0 && 
+                            Player1.charXY[1] + j - ((zoom - 1) / 2) < fullMap[0].Count && Player1.charXY[0] + i - ((zoom - 1) / 2) < fullMap.Count)
                         {
                             Console.ForegroundColor = fullColorMap[Player1.charXY[1] + j - ((zoom - 1) / 2)][Player1.charXY[0] + i - ((zoom - 1) / 2)];
 

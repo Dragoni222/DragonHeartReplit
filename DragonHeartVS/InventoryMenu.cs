@@ -1,19 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using static Player;
-using static PlayClass;
-using static ChangeMapClass;
-using static ChangeNameClass;
-using static ColorConverterClass;
-using static DrawFrameClass;
 using static KeyInputClass;
-using static OnScreenTextAugmentClass;
-using static PlayerMoveClass;
-using static ReadMapInputClass;
-using static DragonHeartWithGit.DragonHeartReplit.ChangeKeybindsClass;
-using static DragonHeartWithGit.DragonHeartReplit.InventoryMenuClass;
-using System.Text;
-using DragonHeartWithGit.DragonHeartReplit;
 
 namespace DragonHeartWithGit.DragonHeartReplit
 {
@@ -130,6 +117,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                 }
                 if(input == ConsoleKey.W)
                 {
+                    doneWeapons = false;
                     while (doneWeapons == false)
                     {
                         drawWeaponMenu(Player1, selectedWeapons, onScreenText, onScreenTextColor);
@@ -164,8 +152,8 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                 Console.Clear();
                                 Console.WriteLine("(E)quip, (D)iscard, or press esc to return to menu");
 
-                                Console.WriteLine(Player1.weaponInventory[selected - 1].name + "          ");
-                                Console.WriteLine(Player1.weaponInventory[selected - 1].type + "  ");
+                                Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].name + "          ");
+                                Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].type + "  ");
                                 inputWeapons = KeyInput().Key;
 
 
@@ -174,10 +162,10 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                 {
                                     if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
                                     {
-                                        Player1.weaponInventory[selected - 1] =
+                                        Player1.weaponInventory[selectedWeapons - 1] =
                                             new Weapon(10000, "bludge", "Fists",
                                             "1d2", new List<List<int>>() { new List<int>(){0,1,0 },
-                                        new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} }, true);
+                                        new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, false);
                                     }
                                     else
                                     {
