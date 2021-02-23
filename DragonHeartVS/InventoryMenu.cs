@@ -150,7 +150,101 @@ namespace DragonHeartWithGit.DragonHeartReplit
                             while (leaveWeapons == false)
                             {
                                 Console.Clear();
-                                Console.WriteLine("(E)quip, (D)iscard, or press esc to return to menu");
+                                if(Player1.weaponInventory[selectedWeapons - 1].equipped == false)
+                                {
+                                    Console.WriteLine("(E)quip, (D)iscard, or press esc to return to menu");
+
+                                    if (inputWeapons == ConsoleKey.D)
+                                    {
+                                        if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
+                                        {
+                                            Player1.weaponInventory[selectedWeapons - 1] =
+                                                new Weapon(10000, "bludge", "Fists",
+                                                "1d2", new List<List<int>>() { new List<int>(){0,1,0 },
+                                        new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, false);
+                                        }
+                                        else
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine("You are currently " +
+                                                "using this weapon, so you may not discard it. Enter to continue.");
+                                            Console.ReadLine();
+                                            Console.Clear();
+                                        }
+                                    }
+
+                                    if (inputWeapons == ConsoleKey.E)
+                                    {
+
+                                        if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine("Which hand do you want to equip this weapon in?(L or R)");
+                                            inputWeapons = KeyInput().Key;
+                                            Console.Clear();
+                                            if (inputWeapons == ConsoleKey.L)
+                                            {
+                                                for (int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
+                                                {
+                                                    if (Player1.weaponInventory[weapon].equipped == true &&
+                                                        Player1.weaponInventory[weapon].name == Player1.equip1.name)
+                                                    {
+                                                        Player1.weaponInventory[weapon].equipped = false;
+                                                    }
+                                                }
+                                                Player1.weaponInventory[selectedWeapons - 1].equipped = true;
+                                                Player1.equip1 = Player1.weaponInventory[selectedWeapons - 1];
+
+                                            }
+                                            if (inputWeapons == ConsoleKey.R)
+                                            {
+                                                for (int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
+                                                {
+                                                    if (Player1.weaponInventory[weapon].equipped == true &&
+                                                        Player1.weaponInventory[weapon].name == Player1.equip2.name)
+                                                    {
+                                                        Player1.weaponInventory[weapon].equipped = false;
+                                                    }
+                                                }
+                                                Player1.weaponInventory[selectedWeapons - 1].equipped = true;
+                                                Player1.equip2 = Player1.weaponInventory[selectedWeapons - 1];
+                                            }
+                                        }
+                                        else
+                                        {
+                                            Console.Clear();
+                                            Console.WriteLine("You are currently using " +
+                                                "this weapon, so you may not equip it. Enter to continue.");
+                                            Console.ReadLine();
+                                            Console.Clear();
+                                        }
+                                    }
+                                }
+                                else if (Player1.weaponInventory[selectedWeapons - 1].name == "Fists")
+                                {
+                                    Console.WriteLine("These are your fists. You can't do much with them.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("(U)nequip, or press esc to return to menu");
+                                    if (inputWeapons == ConsoleKey.U)
+                                    {
+                                        if (Player1.weaponInventory[selectedWeapons - 1].name == Player1.equip1.name)
+                                        {
+                                            Player1.equip1 = new Weapon(10000, "bludge", "Fists",
+                                    "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
+                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
+                                        }
+                                        else if (Player1.weaponInventory[selectedWeapons - 1].name == Player1.equip2.name)
+                                        {
+                                            Player1.equip2 = new Weapon(10000, "bludge", "Fists",
+                                    "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
+                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
+                                        }
+
+                                        Player1.weaponInventory[selectedWeapons - 1].equipped = false;
+                                    }
+                                }
 
                                 Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].name + "          ");
                                 Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].type + "  ");
@@ -158,71 +252,10 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
 
 
-                                if (inputWeapons == ConsoleKey.D)
-                                {
-                                    if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
-                                    {
-                                        Player1.weaponInventory[selectedWeapons - 1] =
-                                            new Weapon(10000, "bludge", "Fists",
-                                            "1d2", new List<List<int>>() { new List<int>(){0,1,0 },
-                                        new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, false);
-                                    }
-                                    else
-                                    {
-                                        Console.Clear();
-                                        Console.WriteLine("You are currently " +
-                                            "using this weapon, so you may not discard it. Enter to continue.");
-                                        Console.ReadLine();
-                                        Console.Clear();
-                                    }
-                                }
-                                if (inputWeapons == ConsoleKey.E)
-                                {
-                                    
-                                    if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
-                                    {
-                                        Console.Clear();
-                                        Console.WriteLine("Which hand do you want to equip this weapon in?(L or R)");
-                                        inputWeapons = KeyInput().Key;
-                                        Console.Clear();
-                                        if(inputWeapons == ConsoleKey.L)
-                                        {
-                                            for(int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
-                                            {
-                                                if(Player1.weaponInventory[weapon].equipped == true &&
-                                                    Player1.weaponInventory[weapon].name == Player1.equip1.name)
-                                                {
-                                                    Player1.weaponInventory[weapon].equipped = false;
-                                                }
-                                            }
-                                            Player1.weaponInventory[selectedWeapons - 1].equipped = true;
-                                            Player1.equip1 = Player1.weaponInventory[selectedWeapons - 1];
-
-                                        }
-                                        if (inputWeapons == ConsoleKey.R)
-                                        {
-                                            for (int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
-                                            {
-                                                if (Player1.weaponInventory[weapon].equipped == true &&
-                                                    Player1.weaponInventory[weapon].name == Player1.equip2.name)
-                                                {
-                                                    Player1.weaponInventory[weapon].equipped = false;
-                                                }
-                                            }
-                                            Player1.weaponInventory[selectedWeapons - 1].equipped = true;
-                                            Player1.equip2 = Player1.weaponInventory[selectedWeapons - 1];
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Console.Clear();
-                                        Console.WriteLine("You are currently using " +
-                                            "this weapon, so you may not equip it. Enter to continue.");
-                                        Console.ReadLine();
-                                        Console.Clear();
-                                    }
-                                }
-                                else if (inputWeapons == ConsoleKey.Escape)
+                                
+                                
+                                
+                                if (inputWeapons == ConsoleKey.Escape)
                                 {
                                     leaveWeapons = true;
                                 }
@@ -287,10 +320,8 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                         Console.Write("          ");
                     }
-
                 }
             }
-            //onScreenTextPrint(onScreenText, onScreenTextColor);
         }
 
 
@@ -336,7 +367,6 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                 }
             }
-            //onScreenTextPrint(onScreenText, onScreenTextColor);
         }
         
     }

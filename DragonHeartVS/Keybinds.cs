@@ -20,11 +20,13 @@ namespace DragonHeartWithGit.DragonHeartReplit
         public ConsoleKey swingWeapon1 { get; set; }
         public ConsoleKey swingWeapon2 { get; set; }
 
+        public ConsoleKey interact { get; set; }
+
         public Keybinds(ConsoleKey Menu, ConsoleKey Up, ConsoleKey Down,
             ConsoleKey Left, ConsoleKey Right, ConsoleKey ChangeName,
             ConsoleKey ChangeNameColor, ConsoleKey PlaceBlock,
             ConsoleKey PlaceColor, ConsoleKey MakeLineSquare,
-            ConsoleKey SwingWeapon1, ConsoleKey SwingWeapon2)
+            ConsoleKey SwingWeapon1, ConsoleKey SwingWeapon2, ConsoleKey Interact)
         {
             menu = Menu;
             up = Up;
@@ -38,6 +40,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
             makeLineSquare = MakeLineSquare;
             swingWeapon1 = SwingWeapon1;
             swingWeapon2 = SwingWeapon2;
+            interact = Interact;
 
         }
 

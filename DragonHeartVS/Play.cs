@@ -15,7 +15,9 @@ using static DragonHeartWithGit.DragonHeartReplit.InventoryMenuClass;
 using static DragonHeartWithGit.DragonHeartReplit.SwingWeaponClass;
 using System.Text;
 using DragonHeartWithGit.DragonHeartReplit;
-
+using System.Threading;
+using static DrawEntities;
+using static Entities;
 
 class PlayClass
 {
@@ -30,10 +32,17 @@ class PlayClass
 
         Keybinds keybindsMapMaker = new Keybinds(ConsoleKey.Escape, ConsoleKey.W,
             ConsoleKey.S, ConsoleKey.A, ConsoleKey.D, ConsoleKey.T, ConsoleKey.Y,
-            ConsoleKey.E, ConsoleKey.Q, ConsoleKey.L, ConsoleKey.J, ConsoleKey.K);
+            ConsoleKey.E, ConsoleKey.Q, ConsoleKey.L, ConsoleKey.J, ConsoleKey.K,
+            ConsoleKey.E);
 
-        
-        
+        List<Entities> allEntities = new List<Entities>();
+
+        allEntities.Add(new Entities(new Items[] { new Items(1, "Potion", "Health Potion") },
+            new Weapon[]{new Weapon(50, "pierce", "wooden knife", "2d5 ",
+            new List<List<int>>{ new List<int>(){0,2,0},
+                new List<int>() { 0, -1, 0 },
+                new List<int>() { 0, 0, 0 } }, false) }, "C", new[] { 50, 52 }, 0,
+            ConsoleColor.DarkYellow, "Chest"));
 
         for (int o = 1; o <= colorChangeID.Length; o++)
         {
@@ -60,6 +69,7 @@ class PlayClass
 
             
             Console.WriteLine("Enter password for dev map maker, play to play, or settings for settings");
+            
             string readLine = Console.ReadLine();
 
             //to skip
@@ -91,11 +101,10 @@ class PlayClass
                 //prints map
                 ghost = true;
 
-                fullMap = mapAugment(fullMapOrig, Player1.charXY[0], Player1.charXY[1], Player1.name);
-                fullMapColor = mapAugmentColor(fullMapColorOrig, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
                 
 
-                drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor, fullMapHighColor);
+                drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText,
+                    onScreenTextColor, fullMapHighColor, allEntities);
                 fullMapHighColor = new List<List<System.ConsoleColor>>();
                 fullMapHighColorOrig = new List<List<System.ConsoleColor>>();
                 for (int j = 0; j < 100; j++)
@@ -387,7 +396,7 @@ class PlayClass
                     onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "blue", 1, 12 + Player1.hp.ToString().Length, 12 + Player1.hp.ToString().Length + 4 + Player1.hp.ToString().Length, colorChangeID);
                     colorChangeID[0]++;
 
-                    drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor, fullMapHighColor);
+                    drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor, fullMapHighColor, allEntities);
                     fullMapHighColor = new List<List<System.ConsoleColor>>();
                     fullMapHighColorOrig = new List<List<System.ConsoleColor>>();
                     for (int j = 0; j < 100; j++)
@@ -412,10 +421,9 @@ class PlayClass
                 //prints map
                 ghost = false;
 
-                fullMap = mapAugment(fullMapOrig, Player1.charXY[0], Player1.charXY[1], Player1.name);
-                fullMapColor = mapAugmentColor(fullMapColorOrig, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
 
-                drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor, fullMapHighColor);
+                drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText,
+                    onScreenTextColor, fullMapHighColor, allEntities);
                 fullMapHighColor = new List<List<System.ConsoleColor>>();
                 fullMapHighColorOrig = new List<List<System.ConsoleColor>>();
                 for (int j = 0; j < 100; j++)
@@ -448,7 +456,7 @@ class PlayClass
 
                         prevCharXY[1] = Player1.charXY[1];
                         prevCharXY[0] = Player1.charXY[0];
-
+                        
                         Player1.charXY = charMove(Player1, commandInput, fullMap, ghost, keybindsMapMaker);
                         if(commandInput == keybindsMapMaker.up)
                         {
@@ -472,12 +480,13 @@ class PlayClass
                             onScreenText = onScreenTextAugment(onScreenText, "you cannot move there", 13);
                             onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "red", 12, 1, 21, colorChangeID);
                         }
-
+                        /*
                         fullMap = mapAugment(fullMap, prevCharXY[0], prevCharXY[1], fullMapOrig[prevCharXY[1]][prevCharXY[0]]);
                         fullMapColor = mapAugmentColor(fullMapColor, prevCharXY[0], prevCharXY[1], fullMapColorOrig[prevCharXY[1]][prevCharXY[0]]);
 
                         fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
                         fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
+                        */
 
                     }
 
@@ -498,17 +507,18 @@ class PlayClass
                     else if(commandInput == keybindsMapMaker.swingWeapon1)
                     {
                         
-                        fullMap = SwingWeapon2(Player1, 1, fullMap, SwingWeapon3(Player1, 1, fullMapHighColor));
+                        fullMapOrig = SwingWeapon2(Player1, 1, fullMap, SwingWeapon3(Player1, 1, fullMapHighColor));
+                        //fullMap = fullMapOrig;
                         fullMapHighColor = SwingWeapon3(Player1, 1, fullMapHighColor);
                         Player1 = SwingWeapon1(Player1, 1);
 
                         if (Player1.equip1.durability == 0)
                         {
                             onScreenText = onScreenTextAugment(onScreenText, $"Your {Player1.equip1.name} broke.", 13);
-                            onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 13, 5, 100, colorChangeID);
+                            onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 12, 1, 100, colorChangeID);
                             Player1.equip1 = new Weapon(10000, "bludge", "Fists",
-                                "1d2",new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} }, true);
+                                "1d2 ",new List<List<int>>() { new List<int>(){0,1,0 },
+                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
                         }
 
                         fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
@@ -516,17 +526,18 @@ class PlayClass
                     }
                     else if (commandInput == keybindsMapMaker.swingWeapon2)
                     {
-                        fullMap = SwingWeapon2(Player1, 2, fullMap, SwingWeapon3(Player1, 1, fullMapHighColor));
+                        fullMapOrig = SwingWeapon2(Player1, 2, fullMap, SwingWeapon3(Player1, 1, fullMapHighColor));
+                        //fullMap = fullMapOrig;
                         fullMapHighColor = SwingWeapon3(Player1, 2, fullMapHighColor);
                         Player1 = SwingWeapon1(Player1, 2);
 
                         if (Player1.equip2.durability == 0)
                         {
                             onScreenText = onScreenTextAugment(onScreenText, $"Your {Player1.equip2.name} broke.", 13);
-                            onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 13, 5, 100, colorChangeID);
-                            Player1.equip2 = new Weapon(10000, "bludge", "Fists", "1d2",
+                            onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "darkred", 12, 1, 100, colorChangeID);
+                            Player1.equip2 = new Weapon(10000, "bludge", "Fists", "1d2 ",
                                 new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,1,0 }, new List<int>() { 0,0,0} },true);
+                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} },true);
                         }
 
                         fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
@@ -636,7 +647,7 @@ class PlayClass
                     onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "blue", 1, 12 + Player1.hp.ToString().Length, 12 + Player1.hp.ToString().Length + 4 + Player1.hp.ToString().Length, colorChangeID);
                     colorChangeID[0]++;
 
-                    drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor, fullMapHighColor);
+                    drawFrame(fullMap, Player1, mapZoom, fullMapColor, onScreenText, onScreenTextColor, fullMapHighColor, allEntities);
                     
                     fullMapHighColor = new List<List<System.ConsoleColor>>();
                     fullMapHighColorOrig = new List<List<System.ConsoleColor>>();

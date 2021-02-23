@@ -10,15 +10,23 @@ using static KeyInputClass;
 using static OnScreenTextAugmentClass;
 using static PlayerMoveClass;
 using static ReadMapInputClass;
+using static DrawEntities;
 using System.Text;
 
 class DrawFrameClass
 {
 
-    public static void drawFrame(List<List<string>> fullMap, Player Player1, int zoom, List<List<ConsoleColor>> fullColorMap, string[] textString, List<string[]>[] onScreenTextColor, List<List<ConsoleColor>> fullHighColorMap)
+    public static void drawFrame(List<List<string>> fullMap, Player Player1,
+        int zoom, List<List<ConsoleColor>> fullColorMap, string[] textString,
+        List<string[]>[] onScreenTextColor, List<List<ConsoleColor>> fullHighColorMap,
+        List<Entities> allEntities)
     {
 
         Console.Clear();
+
+        fullMap = DrawAllEntities(fullMap, allEntities, Player1);
+        fullColorMap = DrawAllEntitiesColor(fullColorMap, allEntities, Player1);
+
         mapPrint(zoom, fullMap, Player1, fullColorMap, textString,
             onScreenTextColor, fullHighColorMap);
 

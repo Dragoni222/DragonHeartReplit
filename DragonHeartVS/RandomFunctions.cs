@@ -15,38 +15,65 @@ using static DragonHeartWithGit.DragonHeartReplit.InventoryMenuClass;
 using static DragonHeartWithGit.DragonHeartReplit.SwingWeaponClass;
 using System.Text;
 using DragonHeartWithGit.DragonHeartReplit;
+using System.Threading;
 
 public class RandomFunctions
 {
-	public static int DamageRandom(string damage)
-	{
-		var rand = new Random();
-		int totalDamage = 0;
-		bool isInt = true;
-		int totalInts = -1;
-		string damageRoll = "";
-		int addToTotalDamage = 0;
-		int test;
+    public static int DamageRandom(string damage, int critMulti, int critAdd)
+    {
+        var rand = new Random();
+        int totalDamage = 0;
+        bool isInt = true;
+        int totalInts = -1;
+        int totalIntsFirstNumber = -1;
+        string damageRoll = "         ";
+        int addToTotalDamage = 0;
+        int[] test = new int[2];
+        int[] testFirstNumber = new int[2];
+        string rollCount = "          ";
+        int trueRollCount = 0;
+        while (isInt == true)
+        {
+            isInt = Int32.TryParse(damage[totalInts + 3].ToString(),
+                out test[totalInts + 1]);
+            totalInts++;
 
-		while(isInt == true)
-        {
-			isInt = Int32.TryParse(damage[totalInts + 3].ToString(), out test);
-			totalInts++;
-			damageRoll.Insert(totalInts, test.ToString());
-			
+
         }
-		for(int i = 0; i<=totalInts; i++)
+        for (int i = 0; i <= totalInts-1; i++)
         {
-			
-        }
-		for(int i = 0; i<=damage[0] - 1; i++)
-        {
-			Int32.TryParse(damageRoll, out addToTotalDamage);
-			addToTotalDamage = rand.Next(1, addToTotalDamage);
-			totalDamage += addToTotalDamage;
-			addToTotalDamage = 0;
+            damageRoll += test[i].ToString();
         }
 
-		return totalDamage;
+        isInt = true;
+
+        while (isInt == true)
+        {
+            isInt = Int32.TryParse(damage[totalIntsFirstNumber + 1].ToString(),
+                out testFirstNumber[totalIntsFirstNumber + 1]);
+            totalIntsFirstNumber++;
+
+
+        }
+        for (int i = 0; i <= totalIntsFirstNumber - 1; i++)
+        {
+            rollCount += testFirstNumber[i].ToString();
+        }
+
+        Int32.TryParse(rollCount, out trueRollCount);
+
+        for (int i = 0; i <= trueRollCount - 1; i++)
+        {
+            Int32.TryParse(damageRoll, out addToTotalDamage);
+            totalDamage += rand.Next(1, addToTotalDamage); 
+            addToTotalDamage = 0;
+        }
+        
+        totalDamage += critAdd;
+        totalDamage = totalDamage * critMulti;
+
+        return totalDamage;
+
+
 	}
 }

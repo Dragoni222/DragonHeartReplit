@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using static Player;
-using static PlayClass;
 using static ChangeMapClass;
-using static ChangeNameClass;
-using static ColorConverterClass;
-using static DrawFrameClass;
-using static KeyInputClass;
-using static OnScreenTextAugmentClass;
-using static PlayerMoveClass;
-using static ReadMapInputClass;
-using static DragonHeartWithGit.DragonHeartReplit.ChangeKeybindsClass;
-using static DragonHeartWithGit.DragonHeartReplit.InventoryMenuClass;
 using static RandomFunctions;
+using static FindRangeStats;
 using System.Text;
 using DragonHeartWithGit.DragonHeartReplit;
 
@@ -65,96 +55,13 @@ namespace DragonHeartWithGit.DragonHeartReplit
             int weapon, List<List<string>> fullMap, List<List<ConsoleColor>> trueRange)
         {
             var rand = new Random();
-            for(int i = 0; i <=trueRange.Count-1; i++)
-            {
-                for(int j = 0; j <= trueRange.Count - 1; j++)
-                {
-                    if (fullMap[Player1.charXY[0]+(i-(trueRange.Count-1))][Player1.charXY[1]] == "0")
-                    {
-                        if (DamageRandom(Player1.equip1.damage) >= 2)
-                        {
-                            fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], " ");
-                            
-                        }
-                    }
-                }
-            }
-            
-            return fullMap;
-        }
-
-        public static List<List<System.ConsoleColor>> SwingWeapon3(Player Player1,
-            int weapon, List<List<System.ConsoleColor>> fullMapHighColor)
-        {
-            //applies the color on the map with crazier changes, along with the range indicator.
             int playerX = 1;
             int playerY = 1;
 
-            
+            List<List<int>> savedRange = FindTrueRange(Player1, weapon);
 
             if (weapon == 1)
             {
-                List<List<int>> savedRange = new List<List<int>>();
-                for(int i = 0; i <= Player1.equip1.range.Count - 1; i++)
-                {
-                    savedRange.Add(new List<int>());
-                    for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
-                    {
-                        savedRange[i].Add(0);
-                    }
-                }
-                if (Player1.direction == 1)
-                {
-                    for (int i = 0; i <= Player1.equip1.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
-                        {
-
-                            savedRange[j][i] = Player1.equip1.range[j][i];
-
-                        }
-                    }
-                }
-                else if (Player1.direction == 2)
-                {
-                    for (int i = 0; i <= Player1.equip1.range.Count-1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip1.range[0].Count-1; j++)
-                        {
-                            
-                            savedRange[j][(Player1.equip1.range[0].Count-1)-i] = Player1.equip1.range[i][j];
-                            
-                        }
-                    }
-                }
-                else if (Player1.direction == 4)
-                {
-                    for (int i = 0; i <= Player1.equip1.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
-                        {
-                            
-                            savedRange[(Player1.equip1.range[0].Count-1)- i][j] = Player1.equip1.range[i][j];
-                            
-                        }
-                    }
-                }
-                else if (Player1.direction == 3)
-                {
-                    for (int i = 0; i <= Player1.equip1.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip1.range[0].Count - 1; j++)
-                        {
-                        
-                            savedRange[j][i] = Player1.equip1.range[i][j];
-                            
-                        }
-                    }
-                }
-
-                
-                
-
 
                 for (int y = 0; y < Player1.equip1.range.Count; y++)
                 {
@@ -168,9 +75,117 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                     }
                 }
-                for (int y = 0; y <= Player1.equip1.range.Count-1; y++)
+
+                for (int y = 0; y <= Player1.equip1.range.Count - 1; y++)
                 {
-                    for (int x = 0; x <= Player1.equip1.range[y].Count-1; x++)
+                    for (int x = 0; x <= Player1.equip1.range[y].Count - 1; x++)
+                    {
+                        if(fullMap[Player1.charXY[0] + (x - playerX)]
+                            [Player1.charXY[1] + (y - playerY)] == "0")
+                        {
+                            if (savedRange[y][x] == 1)
+                            {
+                                if(DamageRandom(Player1.equip1.damage, 1, 0) >= 5)
+                                fullMap = mapAugment(fullMap,
+                                    Player1.charXY[0] + (x - playerX),
+                                    Player1.charXY[1] + (y - playerY), " ");
+                            }
+                            else if (savedRange[y][x] == 2)
+                            {
+                                if (DamageRandom(Player1.equip1.damage, 2, 0) >= 5)
+                                    fullMap = mapAugment(fullMap,
+                                        Player1.charXY[0] + (x - playerX),
+                                        Player1.charXY[1] + (y - playerY), " ");
+                            }
+                        }
+                        
+
+                    }
+                }
+
+            }
+
+
+
+
+
+
+            if (weapon == 2)
+            {
+
+                for (int y = 0; y < Player1.equip2.range.Count; y++)
+                {
+                    for (int x = 0; x < Player1.equip2.range[y].Count; x++)
+                    {
+                        if (Player1.equip2.range[y][x] == -1)
+                        {
+                            playerX = x;
+                            playerY = y;
+                        }
+
+                    }
+                }
+
+                for (int y = 0; y <= Player1.equip2.range.Count - 1; y++)
+                {
+                    for (int x = 0; x <= Player1.equip2.range[y].Count - 1; x++)
+                    {
+                        if (fullMap[Player1.charXY[0] + (x - playerX)]
+                            [Player1.charXY[1] + (y - playerY)] == "0")
+                        {
+                            if (savedRange[y][x] == 1)
+                            {
+                                if (DamageRandom(Player1.equip2.damage, 1, 0) >= 5)
+                                    fullMap = mapAugment(fullMap,
+                                        Player1.charXY[0] + (x - playerX),
+                                        Player1.charXY[1] + (y - playerY), " ");
+                            }
+                            else if (savedRange[y][x] == 2)
+                            {
+                                if (DamageRandom(Player1.equip2.damage, 2, 0) >= 5)
+                                    fullMap = mapAugment(fullMap,
+                                        Player1.charXY[0] + (x - playerX),
+                                        Player1.charXY[1] + (y - playerY), " ");
+                            }
+                        }
+
+
+                    }
+                }
+
+            }
+
+
+            return fullMap;
+        }
+
+        public static List<List<System.ConsoleColor>> SwingWeapon3(Player Player1,
+            int weapon, List<List<System.ConsoleColor>> fullMapHighColor)
+        {
+            //applies the color on the map with crazier changes, along with the range indicator.
+            List<List<int>> savedRange = FindTrueRange(Player1, weapon);
+
+            int playerX = 1;
+            int playerY = 1;
+
+            if (weapon == 1) {
+
+                for (int y = 0; y < Player1.equip1.range.Count; y++)
+                {
+                    for (int x = 0; x < Player1.equip1.range[y].Count; x++)
+                    {
+                        if (Player1.equip1.range[y][x] == -1)
+                        {
+                            playerX = x;
+                            playerY = y;
+                        }
+
+                    }
+                }
+
+                for (int y = 0; y <= Player1.equip1.range.Count - 1; y++)
+                {
+                    for (int x = 0; x <= Player1.equip1.range[y].Count - 1; x++)
                     {
                         if (savedRange[y][x] == 1)
                         {
@@ -190,70 +205,13 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
             }
 
+
+
+
+
+
             if (weapon == 2)
             {
-                List<List<int>> savedRange = new List<List<int>>();
-                for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
-                {
-                    savedRange.Add(new List<int>());
-                    for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
-                    {
-                        savedRange[i].Add(0);
-                    }
-                }
-                if (Player1.direction == 1)
-                {
-                    for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
-                        {
-
-                            savedRange[j][i] = Player1.equip2.range[j][i];
-
-                        }
-                    }
-                }
-                else if (Player1.direction == 2)
-                {
-                    for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
-                        {
-
-                            savedRange[j][(Player1.equip2.range[0].Count - 1) - i] = Player1.equip2.range[i][j];
-
-                        }
-                    }
-                }
-                else if (Player1.direction == 4)
-                {
-                    for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
-                        {
-
-                            savedRange[(Player1.equip2.range[0].Count - 1) - i][j] = Player1.equip2.range[i][j];
-
-                        }
-                    }
-                }
-                else if (Player1.direction == 3)
-                {
-                    for (int i = 0; i <= Player1.equip2.range.Count - 1; i++)
-                    {
-                        for (int j = 0; j <= Player1.equip2.range[0].Count - 1; j++)
-                        {
-
-                            savedRange[j][i] = Player1.equip2.range[i][j];
-
-                        }
-                    }
-                }
-
-
-
-
-
                 for (int y = 0; y < Player1.equip2.range.Count; y++)
                 {
                     for (int x = 0; x < Player1.equip2.range[y].Count; x++)
@@ -287,7 +245,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                 }
 
             }
-
+        
 
             return fullMapHighColor;
         }

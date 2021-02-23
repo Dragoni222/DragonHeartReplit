@@ -12,7 +12,7 @@ using static PlayerMoveClass;
 using static ReadMapInputClass;
 using DragonHeartWithGit.DragonHeartReplit;
 using System.Text;
-
+using System.Threading;
 class PlayerMoveClass
 {
 
@@ -25,7 +25,7 @@ class PlayerMoveClass
         {
             if (Player1.charXY[1] >= 1)
             {
-                if (fullMap[Player1.charXY[0]][Player1.charXY[1] - 1] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1] - 1][Player1.charXY[0]] != "0" || ghost == true)
                     Player1.charXY[1] -= 1;
             }
         }
@@ -33,7 +33,7 @@ class PlayerMoveClass
         {
             if (Player1.charXY[0] >= 1)
             {
-                if (fullMap[Player1.charXY[0] - 1][Player1.charXY[1]] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1]][Player1.charXY[0] - 1] != "0" || ghost == true)
                     Player1.charXY[0] -= 1;
             }
         }
@@ -41,7 +41,7 @@ class PlayerMoveClass
         {
             if (Player1.charXY[1] < fullMap.Count-1)
             {
-                if (fullMap[Player1.charXY[0]][Player1.charXY[1] + 1] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1] + 1][Player1.charXY[0]] != "0" || ghost == true)
                     Player1.charXY[1] += 1;
             }
         }
@@ -49,12 +49,12 @@ class PlayerMoveClass
         {
             if (Player1.charXY[0] < fullMap[0].Count-1)
             {
-                if (fullMap[Player1.charXY[0] + 1][Player1.charXY[1]] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1]][Player1.charXY[0] + 1] != "0" || ghost == true)
                     Player1.charXY[0] += 1;
             }
         }
-        
 
+        
 
 
         return Player1.charXY;
