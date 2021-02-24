@@ -33,9 +33,16 @@ class PlayClass
         Keybinds keybindsMapMaker = new Keybinds(ConsoleKey.Escape, ConsoleKey.W,
             ConsoleKey.S, ConsoleKey.A, ConsoleKey.D, ConsoleKey.T, ConsoleKey.Y,
             ConsoleKey.E, ConsoleKey.Q, ConsoleKey.L, ConsoleKey.J, ConsoleKey.K,
-            ConsoleKey.E);
+            ConsoleKey.V);
 
         List<Entities> allEntities = new List<Entities>();
+
+        allEntities.Add(new Entities(new Items[] { new Items(1, "Potion", "Health Potion") },
+            new Weapon[]{new Weapon(50, "pierce", "wooden knife", "2d5 ",
+            new List<List<int>>{ new List<int>(){0,2,0},
+                new List<int>() { 0, -1, 0 },
+                new List<int>() { 0, 0, 0 } }, false) }, "E", new[] { 99, 99 }, 0,
+            ConsoleColor.DarkYellow, "Empty"));
 
         allEntities.Add(new Entities(new Items[] { new Items(1, "Potion", "Health Potion") },
             new Weapon[]{new Weapon(50, "pierce", "wooden knife", "2d5 ",
@@ -367,7 +374,7 @@ class PlayClass
 
                             if (commandInput == ConsoleKey.I)
                             {
-                                Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor);
+                                Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor, allEntities[0]);
                             }
                             
                         }
@@ -480,14 +487,22 @@ class PlayClass
                             onScreenText = onScreenTextAugment(onScreenText, "you cannot move there", 13);
                             onScreenTextColor = onScreenTextColorAugment(onScreenTextColor, "red", 12, 1, 21, colorChangeID);
                         }
-                        /*
-                        fullMap = mapAugment(fullMap, prevCharXY[0], prevCharXY[1], fullMapOrig[prevCharXY[1]][prevCharXY[0]]);
-                        fullMapColor = mapAugmentColor(fullMapColor, prevCharXY[0], prevCharXY[1], fullMapColorOrig[prevCharXY[1]][prevCharXY[0]]);
+                        
 
-                        fullMap = mapAugment(fullMap, Player1.charXY[0], Player1.charXY[1], Player1.name);
-                        fullMapColor = mapAugmentColor(fullMapColor, Player1.charXY[0], Player1.charXY[1], Player1.nameColor);
-                        */
-
+                    }
+                    else if (commandInput == keybindsMapMaker.interact)
+                    {
+                        
+                        for(int i = 0; i <= allEntities.Count-1; i++)
+                        {
+                            
+                            if (allEntities[i].entityXY[1] == Player1.charXY[1] && allEntities[i].entityXY[0] == Player1.charXY[0])
+                            {
+                                
+                                Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor, allEntities[i]);
+                            }
+                        }
+                        
                     }
 
                     else if (commandInput == keybindsMapMaker.changeName)
@@ -619,7 +634,7 @@ class PlayClass
 
                         if (commandInput == ConsoleKey.I)
                         {
-                            Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor);
+                            Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor, allEntities[0]);
                         }
 
                     }
