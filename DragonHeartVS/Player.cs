@@ -21,14 +21,14 @@ public class Player
   public string name { get; set; }
   public ConsoleColor nameColor { get; set; }
   public int[] charXY { get; set; }
-  public Items[] itemInventory { get; set; }
-  public Weapon[] weaponInventory { get; set; }
+  public List<Items> itemInventory { get; set; }
+  public List<Weapon> weaponInventory { get; set; }
   public Weapon equip1 { get; set; }
   public Weapon equip2 { get; set; }
 
 
     public Player(int HP, string Name, int Direction,int[] CharXY, ConsoleColor NameColor,
-      int Mana, Items[] ItemInventory, Weapon[] WeaponInventory, Weapon Equip1,
+      int Mana, List<Items> ItemInventory, List<Weapon> WeaponInventory, Weapon Equip1,
       Weapon Equip2)
   {
 

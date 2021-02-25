@@ -19,14 +19,14 @@ using DragonHeartWithGit.DragonHeartReplit;
 public class Entities 
 {
     public string name { get; set; }
-    public Items[] itemInventory { get; set; }
-    public Weapon[] weaponInventory { get; set; }
+    public List<Items> itemInventory { get; set; }
+    public List<Weapon> weaponInventory { get; set; }
     public int[] entityXY { get; set; }
     public int hp { get; set; }
     public ConsoleColor nameColor { get; set; }
     public string trueName { get; set; }
 
-    public Entities(Items[] ItemInventory, Weapon[] WeaponInventory, string Name,
+    public Entities(List<Items> ItemInventory, List<Weapon> WeaponInventory, string Name,
         int[] EntityXY, int Hp, ConsoleColor NameColor, string TrueName)
     {
         name = Name;

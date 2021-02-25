@@ -44,25 +44,29 @@ class MainClass
     {
         
 
-        Weapon woodenShortsword = new Weapon(50, "slash", "wooden shortsword",
+        Weapon woodenShortsword = new Weapon(50, "slash", "Wooden Shortsword",
             "1d4 ", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
                 new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},
             new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true );
 
-        Weapon woodenClub = new Weapon(50, "bludge", "wooden club",
+        Weapon woodenClub = new Weapon(50, "bludge", "Wooden Club",
             "1d6 ", new List<List<int>>{ new List<int>(){1,2,1},
                 new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true );
 
-        Weapon woodenKnife = new Weapon(50, "pierce", "wooden knife",
+        Weapon woodenKnife = new Weapon(50, "pierce", "Wooden Knife",
             "2d5 ", new List<List<int>>{ new List<int>(){0,2,0},
                 new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, false);
 
         List<List<string>> fullMap = new List<List<string>>();
-          List<List<string>> fullMapOrig = new List<List<string>>();
+        List<List<string>> fullMapOrig = new List<List<string>>();
 
-        Items[] playerStartingItems = { new Items(1, "Potion", "Health Potion"), new Items(2, "Potion", "Mana Potion"), new Items(4, "Food", "Roll") };
+        List<Items> playerStartingItems = new List<Items>();
 
-        Weapon[] playerStartingWeapons = { woodenShortsword, woodenClub, woodenKnife };
+        playerStartingItems.Add(new Items(1, "Potion", "Health Potion"));
+        playerStartingItems.Add(new Items(4, "Food", "Roll"));
+        playerStartingItems.Add(new Items(2, "Potion", "Mana Potion"));
+
+        List<Weapon> playerStartingWeapons = new List<Weapon>() { woodenShortsword, woodenClub, woodenKnife };
         //if not, add a base map color so the game doesn't break
         if (fullMap.Count == 0)
           {

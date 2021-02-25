@@ -10,16 +10,17 @@ namespace DragonHeartWithGit.DragonHeartReplit
         {
             bool done = false;
             bool doneWeapons = false;
-            bool doneOther = false;
-            bool doneOtherWeapons = false;
 
             int selected = 1;
             int selectedSaved = 0;
+            int selectedSavedWeapons = 0;
             int selectedSavedTwo = 0;
 
             int selectedWeapons = 1;
             int selectedOther = 0;
-            int selectedOtherWeapons = 1;
+            int selectedOtherWeapons = 0;
+
+            bool itemTaken = false;
 
             while (done == false)
             {
@@ -27,29 +28,19 @@ namespace DragonHeartWithGit.DragonHeartReplit
                 drawInventoryMenu(Player1, selected, onScreenText, onScreenTextColor, otherEntity,selectedOther,selectedSaved);
 
                 ConsoleKey input = KeyInput().Key;
-                if (selected <= Player1.itemInventory.Length && selected != 0)
+                if (selected <= Player1.itemInventory.Count && selected != 0)
                 {
                     if (input == ConsoleKey.RightArrow )
                     {
                         selected++;
-                        if(selected <= Player1.itemInventory.Length)
-                        {
-                            while (Player1.itemInventory[selected - 1].name == "empty")
-                            {
-                                selected++;
-                            }
-                        }
-                        if(selected == Player1.itemInventory.Length&& Player1.itemInventory[selected - 1].name == "empty")
-                        {
-                            selected++;
-                        }
+                        
                         
                     }
                     if (input == ConsoleKey.LeftArrow && selected > 1)
                     {
                         selected--;
                         selectedSavedTwo = selected + 1;
-                        if (selected <= Player1.itemInventory.Length)
+                        if (selected <= Player1.itemInventory.Count)
                         {
                             while (Player1.itemInventory[selected - 1].name == "empty" && selected - 1 != 0)
                             {
@@ -67,12 +58,12 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     {
                         selected -= 5;
                     }
-                    if (input == ConsoleKey.DownArrow && selected + 4 < Player1.itemInventory.Length)
+                    if (input == ConsoleKey.DownArrow && selected + 4 < Player1.itemInventory.Count)
                     {
                         selected += 5;
                     }
                 }
-                if (selected > Player1.itemInventory.Length || selected == 0)
+                if ((selected > Player1.itemInventory.Count || selected == 0)&&otherEntity.trueName != " ")
                 {
                     if (selected != 0)
                     {
@@ -80,13 +71,13 @@ namespace DragonHeartWithGit.DragonHeartReplit
                         selected = 0;
                     }
                     
-                    if (input == ConsoleKey.RightArrow && selectedOther < otherEntity.itemInventory.Length)
+                    if (input == ConsoleKey.RightArrow && selectedOther < otherEntity.itemInventory.Count)
                     {
                         selectedOther++;
                         selectedSavedTwo = selectedOther - 1;
-                        if (selected > Player1.itemInventory.Length)
+                        if (selected > Player1.itemInventory.Count)
                         {
-                            while (otherEntity.itemInventory[selectedOther - 1].name == "empty" && selectedOther + 1 != otherEntity.itemInventory.Length)
+                            while (otherEntity.itemInventory[selectedOther - 1].name == "empty" && selectedOther + 1 != otherEntity.itemInventory.Count)
                             {
                                 selectedOther--;
                             }
@@ -123,13 +114,16 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     {
                         selectedOther -= 5;
                     }
-                    if (input == ConsoleKey.DownArrow && selected + 4 < otherEntity.itemInventory.Length)
+                    if (input == ConsoleKey.DownArrow && selected + 4 < otherEntity.itemInventory.Count)
                     {
                         selectedOther += 5;
                     }
 
                 }
-               
+                else if((selected > Player1.itemInventory.Count || selected == 0) && otherEntity.trueName == " ")
+                {
+                    selected--;
+                }
                 
                 if (input == ConsoleKey.E)
                 {
@@ -141,7 +135,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     while (leave == false)
                     {
                         Console.Clear();
-                        Console.WriteLine("(U)se, (D)iscard, or press esc to return to menu");
+                        Console.WriteLine("(U)se, (D)iscard, (T)ake or press esc to return to menu");
                         if(selected != 0)
                         {
                             Console.WriteLine(Player1.itemInventory[selected - 1].name + ": " + Player1.itemInventory[selected - 1].amount + "          ");
@@ -159,7 +153,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                     }
                                     if (Player1.itemInventory[selected - 1].amount < 1)
                                     {
-                                        Player1.itemInventory[selected - 1] = new Items(0, "empty", "empty");
+                                        Player1.itemInventory.RemoveAt(selected-1);
                                         leave = true;
                                     }
                                 }
@@ -173,7 +167,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                     }
                                     if (Player1.itemInventory[selected - 1].amount < 1)
                                     {
-                                        Player1.itemInventory[selected - 1] = new Items(0, "empty", "empty");
+                                        Player1.itemInventory.RemoveAt(selected - 1);
                                         leave = true;
                                     }
 
@@ -188,7 +182,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                     }
                                     if (Player1.itemInventory[selected - 1].amount < 1)
                                     {
-                                        Player1.itemInventory[selected - 1] = new Items(0, "empty", "empty");
+                                        Player1.itemInventory.RemoveAt(selected - 1);
                                         leave = true;
                                     }
 
@@ -200,7 +194,12 @@ namespace DragonHeartWithGit.DragonHeartReplit
                             }
                             else if (input == ConsoleKey.D)
                             {
-                                Player1.itemInventory[selected - 1] = new Items(0, "empty", "empty");
+                                Player1.itemInventory.RemoveAt(selected - 1);
+                                leave = true;
+                            }
+                            else if (input == ConsoleKey.Escape)
+                            {
+                                leave = true;
                             }
 
                         }
@@ -221,7 +220,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                     }
                                     if (otherEntity.itemInventory[selectedOther - 1].amount < 1)
                                     {
-                                        otherEntity.itemInventory[selectedOther - 1] = new Items(0, "empty", "empty");
+                                        otherEntity.itemInventory.RemoveAt(selectedOther - 1);
                                         leave = true;
                                     }
                                 }
@@ -235,7 +234,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                     }
                                     if (otherEntity.itemInventory[selectedOther - 1].amount < 1)
                                     {
-                                        otherEntity.itemInventory[selectedOther - 1] = new Items(0, "empty", "empty");
+                                        otherEntity.itemInventory.RemoveAt(selectedOther - 1);
                                         leave = true;
                                     }
 
@@ -250,7 +249,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                     }
                                     if(otherEntity.itemInventory[selectedOther - 1].amount < 1)
                                     {
-                                        otherEntity.itemInventory[selectedOther - 1] = new Items(0, "empty", "empty");
+                                        otherEntity.itemInventory.RemoveAt(selectedOther - 1);
                                         leave = true;
                                     }
 
@@ -262,9 +261,32 @@ namespace DragonHeartWithGit.DragonHeartReplit
                             }
                             else if (input == ConsoleKey.D)
                             {
-                                otherEntity.itemInventory[selectedOther - 1] = new Items(0, "empty", "empty");
+                                otherEntity.itemInventory.RemoveAt(selectedOther - 1);
+                                leave = true;
                             }
-
+                            else if(input == ConsoleKey.T)
+                            {
+                                for(int i = 0; i <= Player1.itemInventory.Count-1; i++)
+                                {
+                                    if(Player1.itemInventory[i].name == otherEntity.itemInventory[selectedOther-1].name)
+                                    {
+                                        Player1.itemInventory[i].amount += otherEntity.itemInventory[selectedOther-1].amount;
+                                        itemTaken = true;
+                                    }
+                                }
+                                if (itemTaken == false)
+                                {
+                                    Player1.itemInventory.Add(otherEntity.itemInventory[selectedOther - 1]);
+                                }
+                                otherEntity.itemInventory.RemoveAt(selectedOther - 1);
+                                leave = true;
+                                selectedSaved++;
+                                itemTaken = false;
+                            }
+                            else if (input == ConsoleKey.Escape)
+                            {
+                                leave = true;
+                            }
                         }
 
                         else if (input == ConsoleKey.Escape)
@@ -280,26 +302,104 @@ namespace DragonHeartWithGit.DragonHeartReplit
                     doneWeapons = false;
                     while (doneWeapons == false)
                     {
-                        drawWeaponMenu(Player1, selectedWeapons, onScreenText, onScreenTextColor);
+                        drawWeaponsMenu(Player1, selectedWeapons, onScreenText, onScreenTextColor, otherEntity, selectedOtherWeapons, selectedSaved);
 
                         ConsoleKey inputWeapons = KeyInput().Key;
-
-                        if (inputWeapons == ConsoleKey.RightArrow && selectedWeapons < Player1.weaponInventory.Length)
+                        if (selectedWeapons <= Player1.weaponInventory.Count && selectedWeapons != 0)
                         {
-                            selectedWeapons++;
+                            if (inputWeapons == ConsoleKey.RightArrow)
+                            {
+                                selectedWeapons++;
+                            }
+                            if (inputWeapons == ConsoleKey.LeftArrow && selectedWeapons > 1)
+                            {
+                                selectedWeapons--;
+                                selectedSavedTwo = selectedWeapons + 1;
+                                if (selectedWeapons <= Player1.weaponInventory.Count)
+                                {
+                                    while (Player1.weaponInventory[selectedWeapons - 1].name == "empty" && selectedWeapons - 1 != 0)
+                                    {
+                                        selectedWeapons--;
+                                    }
+                                    if (Player1.weaponInventory[selectedWeapons - 1].name == "empty")
+                                    {
+                                        selectedWeapons = selectedSavedTwo;
+                                    }
+                                }
+                                selectedSavedWeapons = 0;
+
+                            }
+                            if (inputWeapons == ConsoleKey.UpArrow && selectedWeapons > 5)
+                            {
+                                selectedWeapons -= 5;
+                            }
+                            if (inputWeapons == ConsoleKey.DownArrow && selectedWeapons + 4 < Player1.weaponInventory.Count)
+                            {
+                                selectedWeapons += 5;
+                            }
                         }
-                        if (inputWeapons == ConsoleKey.LeftArrow && selectedWeapons > 1)
+                        if ((selectedWeapons > Player1.weaponInventory.Count || selectedWeapons == 0) && otherEntity.trueName != " ")
+                        {
+                            if (selectedWeapons != 0)
+                            {
+                                selectedSavedWeapons = selectedWeapons - 1;
+                                selectedWeapons = 0;
+                            }
+
+                            if (inputWeapons == ConsoleKey.RightArrow && selectedOtherWeapons < otherEntity.weaponInventory.Count)
+                            {
+                                selectedOtherWeapons++;
+                                selectedSavedTwo = selectedOtherWeapons - 1;
+                                if (selectedWeapons > Player1.weaponInventory.Count)
+                                {
+                                    while (otherEntity.weaponInventory[selectedOtherWeapons - 1].name == "empty" && selectedOtherWeapons + 1 != otherEntity.weaponInventory.Count)
+                                    {
+                                        selectedOtherWeapons--;
+                                    }
+                                    if (otherEntity.weaponInventory[selectedOtherWeapons - 1].name == "empty")
+                                    {
+                                        selectedOtherWeapons = selectedSavedTwo;
+                                    }
+                                    selectedSavedTwo = 0;
+                                }
+                            }
+                            if (inputWeapons == ConsoleKey.LeftArrow && selectedOtherWeapons > 1)
+                            {
+                                selectedOtherWeapons--;
+                                if (selectedWeapons >= 1)
+                                {
+                                    while (otherEntity.weaponInventory[selectedOtherWeapons - 1].name == "empty")
+                                    {
+                                        selectedOtherWeapons--;
+                                    }
+                                }
+
+                                if (selectedOtherWeapons == 1 && otherEntity.weaponInventory[selectedOtherWeapons - 1].name == "empty")
+                                {
+                                    selectedOtherWeapons--;
+                                }
+
+                            }
+                            else if (inputWeapons == ConsoleKey.LeftArrow && selectedOtherWeapons == 1)
+                            {
+                                selectedOtherWeapons = 0;
+                                selectedWeapons = selectedSavedWeapons;
+                            }
+                            if (inputWeapons == ConsoleKey.UpArrow && selectedOtherWeapons > 5)
+                            {
+                                selectedOtherWeapons -= 5;
+                            }
+                            if (inputWeapons == ConsoleKey.DownArrow && selectedWeapons + 4 < otherEntity.weaponInventory.Count)
+                            {
+                                selectedOtherWeapons += 5;
+                            }
+
+                        }
+                        else if ((selectedWeapons > Player1.weaponInventory.Count || selectedWeapons == 0) && otherEntity.trueName == " ")
                         {
                             selectedWeapons--;
                         }
-                        if (inputWeapons == ConsoleKey.UpArrow && selectedWeapons > 5)
-                        {
-                            selectedWeapons -= 5;
-                        }
-                        if (inputWeapons == ConsoleKey.DownArrow && selectedWeapons + 4 < Player1.weaponInventory.Length)
-                        {
-                            selectedWeapons += 5;
-                        }
+
                         if (inputWeapons == ConsoleKey.E)
                         {
 
@@ -310,127 +410,73 @@ namespace DragonHeartWithGit.DragonHeartReplit
                             while (leaveWeapons == false)
                             {
                                 Console.Clear();
-                                if(Player1.weaponInventory[selectedWeapons - 1].equipped == false)
+                                
+                                if (selectedWeapons != 0)
                                 {
                                     Console.WriteLine("(E)quip, (D)iscard, or press esc to return to menu");
+                                    Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].name + "          ");
+                                    Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].type + "  ");
                                     inputWeapons = KeyInput().Key;
-                                    if (inputWeapons == ConsoleKey.D)
-                                    {
-                                        if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
-                                        {
-                                            Player1.weaponInventory[selectedWeapons - 1] =
-                                                new Weapon(10000, "bludge", "Fists",
-                                                "1d2", new List<List<int>>() { new List<int>(){0,1,0 },
-                                        new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, false);
-                                        }
-                                        else
-                                        {
-                                            Console.Clear();
-                                            Console.WriteLine("You are currently " +
-                                                "using this weapon, so you may not discard it. Enter to continue.");
-                                            Console.ReadLine();
-                                            Console.Clear();
-                                        }
-                                    }
 
                                     if (inputWeapons == ConsoleKey.E)
                                     {
-
-                                        if (Player1.weaponInventory[selectedWeapons - 1].equipped == false)
-                                        {
-                                            Console.Clear();
-                                            Console.WriteLine("Which hand do you want to equip this weapon in?(L or R)");
-                                            inputWeapons = KeyInput().Key;
-                                            Console.Clear();
-                                            if (inputWeapons == ConsoleKey.L)
-                                            {
-                                                for (int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
-                                                {
-                                                    if (Player1.weaponInventory[weapon].equipped == true &&
-                                                        Player1.weaponInventory[weapon].name == Player1.equip1.name)
-                                                    {
-                                                        Player1.weaponInventory[weapon].equipped = false;
-                                                    }
-                                                }
-                                                Player1.weaponInventory[selectedWeapons - 1].equipped = true;
-                                                Player1.equip1 = Player1.weaponInventory[selectedWeapons - 1];
-
-                                            }
-                                            if (inputWeapons == ConsoleKey.R)
-                                            {
-                                                for (int weapon = 0; weapon < Player1.weaponInventory.Length; weapon++)
-                                                {
-                                                    if (Player1.weaponInventory[weapon].equipped == true &&
-                                                        Player1.weaponInventory[weapon].name == Player1.equip2.name)
-                                                    {
-                                                        Player1.weaponInventory[weapon].equipped = false;
-                                                    }
-                                                }
-                                                Player1.weaponInventory[selectedWeapons - 1].equipped = true;
-                                                Player1.equip2 = Player1.weaponInventory[selectedWeapons - 1];
-                                            }
-                                        }
-                                        else
-                                        {
-                                            Console.Clear();
-                                            Console.WriteLine("You are currently using " +
-                                                "this weapon, so you may not equip it. Enter to continue.");
-                                            Console.ReadLine();
-                                            Console.Clear();
-                                        }
+                                        //DEBUG EQUIP HERE
                                     }
-                                }
-                                else if (Player1.weaponInventory[selectedWeapons - 1].name == "Fists")
-                                {
-                                    Console.WriteLine("These are your fists. You can't do much with them.");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("(U)nequip, or press esc to return to menu");
-                                    if (inputWeapons == ConsoleKey.U)
+                                    else if (inputWeapons == ConsoleKey.D)
                                     {
-                                        if (Player1.weaponInventory[selectedWeapons - 1].name == Player1.equip1.name)
-                                        {
-                                            Player1.equip1 = new Weapon(10000, "bludge", "Fists",
-                                    "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
-                                        }
-                                        else if (Player1.weaponInventory[selectedWeapons - 1].name == Player1.equip2.name)
-                                        {
-                                            Player1.equip2 = new Weapon(10000, "bludge", "Fists",
-                                    "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
-                                        }
+                                        Player1.weaponInventory.RemoveAt(selectedWeapons - 1);
+                                        leaveWeapons = true;
+                                    }
+                                    else if (inputWeapons == ConsoleKey.Escape)
+                                    {
+                                        leaveWeapons = true;
+                                    }
 
-                                        Player1.weaponInventory[selectedWeapons - 1].equipped = false;
+                                }
+                                if (selectedWeapons == 0)
+                                {
+                                    Console.WriteLine("(E)quip, (D)iscard, (Take), or press esc to return to menu");
+                                    Console.WriteLine(otherEntity.weaponInventory[selectedOtherWeapons - 1].name + "          ");
+                                    Console.WriteLine(otherEntity.weaponInventory[selectedOtherWeapons - 1].type + "  ");
+                                    inputWeapons = KeyInput().Key;
+
+                                    if (inputWeapons == ConsoleKey.E)
+                                    {
+                                        //DEBUG EQUIP HERE
+                                    }
+                                    else if (inputWeapons == ConsoleKey.D)
+                                    {
+                                        otherEntity.weaponInventory.RemoveAt(selectedOtherWeapons - 1);
+                                        leaveWeapons = true;
+                                    }
+                                    else if (inputWeapons == ConsoleKey.T)
+                                    {
+
+                                        Player1.weaponInventory.Add(otherEntity.weaponInventory[selectedOtherWeapons - 1]);
+                                        otherEntity.weaponInventory.RemoveAt(selectedOtherWeapons - 1);
+                                        leaveWeapons = true;
+                                        selectedSavedWeapons++;
+
+                                    }
+                                    else if (inputWeapons == ConsoleKey.Escape)
+                                    {
+                                        leaveWeapons = true;
                                     }
                                 }
-
-                                Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].name + "          ");
-                                Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].type + "  ");
-                                inputWeapons = KeyInput().Key;
-
-
-
-                                
-                                
-                                
                                 if (inputWeapons == ConsoleKey.Escape)
                                 {
                                     leaveWeapons = true;
                                 }
 
                             }
-                            
+
                         }
-                        if (inputWeapons == ConsoleKey.Escape)
+                        if (inputWeapons == ConsoleKey.I)
                         {
                             doneWeapons = true;
                         }
-
                     }
                 }
-               
 
                 if (input == ConsoleKey.Escape)
                 {
@@ -449,47 +495,73 @@ namespace DragonHeartWithGit.DragonHeartReplit
             List<string[]>[] onScreenTextColor, Entities otherEntity, int selectedOther, int selectedSaved)
         {
             Console.Clear();
-            Console.WriteLine($"         Items:  \n (E) to choose item, (W) for Weapons                                                    {otherEntity.trueName}'s Inventory");
+            if (otherEntity.trueName != " ")
+            {
+                Console.WriteLine($"Items:  \n(E) to choose item, (W) for Weapons                                                    {otherEntity.trueName}'s Inventory");
+            }
+            else
+            {
+                Console.WriteLine($"Items:  \n(E) to choose item, (W) for Weapons");
+            }
+            int inventoryStringLength = 0;
             
 
-            for (int l = 0; l <= Player1.itemInventory.Length / 5; l++)
+            for (int l = 0; l <= Player1.itemInventory.Count / 5; l++)
             {
                 Console.WriteLine();
                 for (int i = 0; i < 4; i++)
                 {
-                    if ((l * 5) + i + 1 <= Player1.itemInventory.Length && Player1.itemInventory[i].name != "empty")
+                    if ((l * 5) + i + 1 <= Player1.itemInventory.Count && Player1.itemInventory[i].name != "empty")
                     {
                         if (i == selected - 1)
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
 
                         Console.Write(Player1.itemInventory[i].name + ": " + Player1.itemInventory[i].amount + "          ");
+                        inventoryStringLength += Player1.itemInventory[i].name.Length + 13 + Player1.itemInventory[i].amount.ToString().Length;
                         Console.ResetColor();
                     }
 
                    
                 }
-                Console.Write("                 ");
+
+                for (int i = 0; i <= 90 - inventoryStringLength; i++)
+                {
+                    Console.Write(" ");
+                }
+                inventoryStringLength = 0;
+
                 drawOtherMenu(Player1, selectedOther, onScreenText, onScreenTextColor, otherEntity, 1, l);
                 Console.WriteLine();
 
                 for (int k = 0; k < 4; k++)
                 {
-                    if ((l * 5) + k + 1 <= Player1.itemInventory.Length && Player1.itemInventory[k].name != "empty")
+                    if ((l * 5) + k + 1 <= Player1.itemInventory.Count && Player1.itemInventory[k].name != "empty")
                     {
                         Console.Write(Player1.itemInventory[k].type + "  ");
+                        inventoryStringLength += Player1.itemInventory[k].type.Length + 2;
 
                         for (int j = 1; j <= Player1.itemInventory[k].name.Length +
                             Player1.itemInventory[k].amount.ToString().Length - Player1.itemInventory[k].type.Length; j++)
                         {
                             Console.Write(" ");
+                            inventoryStringLength++;
                         }
 
                         Console.Write("          ");
+                        inventoryStringLength += 10;
                     }
                     
                     
                 }
-                Console.Write("                 ");
+                for(int i = 0; i < 90 - inventoryStringLength; i++)
+                {
+                    Console.Write(" ");
+                }
+                
+                inventoryStringLength = 0;
+                
+
+                
                 drawOtherMenu(Player1, selectedOther, onScreenText, onScreenTextColor, otherEntity, 2, l);
             }
         }
@@ -503,7 +575,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if ((l * 5) + i + 1 <= otherEntity.itemInventory.Length && otherEntity.itemInventory[i].name != "empty")
+                    if ((l * 5) + i + 1 <= otherEntity.itemInventory.Count && otherEntity.itemInventory[i].name != "empty")
                     {
                         if (i == selected - 1)
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
@@ -520,7 +592,7 @@ namespace DragonHeartWithGit.DragonHeartReplit
             {
                 for (int k = 0; k < 4; k++)
                 {
-                    if ((l * 5) + k + 1 <= otherEntity.itemInventory.Length && otherEntity.itemInventory[k].name != "empty")
+                    if ((l * 5) + k + 1 <= otherEntity.itemInventory.Count && otherEntity.itemInventory[k].name != "empty")
                     {
                         Console.Write(otherEntity.itemInventory[k].type + "  ");
 
@@ -535,67 +607,95 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
 
                 }
-               
-
             }
         }
 
 
-        public static void drawWeaponMenu(Player Player1, int selected, string[] onScreenText, List<string[]>[] onScreenTextColor)
+
+
+        public static void drawWeaponsMenu(Player Player1, int selected, string[] onScreenText,
+            List<string[]>[] onScreenTextColor, Entities otherEntity, int selectedOther, int selectedSaved)
         {
             Console.Clear();
-            Console.WriteLine("         Weapons:");
+            if (otherEntity.trueName != " ")
+            {
+                Console.WriteLine($"Weapons:  \n(E) to choose weapons,(I) to return to items                                         {otherEntity.trueName}'s Inventory");
+            }
+            else
+            {
+                Console.WriteLine($"Weapons:  \n(E) to choose weapons,(I) to return to items");
+            }
+            int inventoryStringLength = 0;
 
-            for (int l = 0; l <= Player1.weaponInventory.Length / 5; l++)
+
+            for (int l = 0; l <= Player1.weaponInventory.Count / 5; l++)
             {
                 Console.WriteLine();
-                
                 for (int i = 0; i < 4; i++)
                 {
-                    if ((l * 5) + i + 1 <= Player1.weaponInventory.Length)
+                    if ((l * 5) + i + 1 <= Player1.weaponInventory.Count && Player1.weaponInventory[i].name != "empty")
                     {
                         if (i == selected - 1)
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
 
                         Console.Write(Player1.weaponInventory[i].name + "          ");
+                        inventoryStringLength += Player1.weaponInventory[i].name.Length + 12;
                         Console.ResetColor();
                     }
 
 
                 }
+
+                for (int i = 0; i <= 90 - inventoryStringLength; i++)
+                {
+                    Console.Write(" ");
+                }
+                inventoryStringLength = 0;
+
+                drawOtherWeaponsMenu(Player1, selectedOther, onScreenText, onScreenTextColor, otherEntity, 1, l);
                 Console.WriteLine();
 
                 for (int k = 0; k < 4; k++)
                 {
-                    if ((l * 5) + k + 1 <= Player1.weaponInventory.Length)
+                    if ((l * 5) + k + 1 <= Player1.weaponInventory.Count && Player1.weaponInventory[k].name != "empty")
                     {
-                        Console.Write(Player1.weaponInventory[k].type);
+                        Console.Write(Player1.weaponInventory[k].type + "  ");
+                        inventoryStringLength += Player1.weaponInventory[k].type.Length + 2;
 
-                        for (int j = 1; j <= Player1.weaponInventory[k].name.Length
-                            - Player1.weaponInventory[k].type.Length; j++)
+                        for (int j = 1; j <= Player1.weaponInventory[k].name.Length - Player1.weaponInventory[k].type.Length; j++)
                         {
                             Console.Write(" ");
+                            inventoryStringLength++;
                         }
 
-                        Console.Write("          ");
+                        Console.Write("        ");
+                        inventoryStringLength += 10;
                     }
 
+
                 }
+                for (int i = 0; i < 90 - inventoryStringLength; i++)
+                {
+                    Console.Write(" ");
+                }
+                inventoryStringLength = 0;
+
+
+
+                drawOtherWeaponsMenu(Player1, selectedOther, onScreenText, onScreenTextColor, otherEntity, 2, l);
             }
         }
 
-        public static void drawOtherWeaponsMenu(Player Player1, int selected, string[] onScreenText, List<string[]>[] onScreenTextColor, Entities otherEntity)
+        public static void drawOtherWeaponsMenu(Player Player1, int selected, string[] onScreenText,
+            List<string[]>[] onScreenTextColor, Entities otherEntity, int line, int l)
         {
-            Console.Clear();
-            Console.WriteLine("         Weapons:");
 
-            for (int l = 0; l <= otherEntity.weaponInventory.Length / 5; l++)
+
+            if (line == 1)
             {
-                Console.WriteLine();
-
                 for (int i = 0; i < 4; i++)
                 {
-                    if ((l * 5) + i + 1 <= otherEntity.weaponInventory.Length)
+                    if ((l * 5) + i + 1 <= otherEntity.weaponInventory.Count && otherEntity.weaponInventory[i].name != "empty")
                     {
                         if (i == selected - 1)
                             Console.BackgroundColor = ConsoleColor.DarkGreen;
@@ -606,16 +706,17 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
 
                 }
-                Console.WriteLine();
+            }
 
+            else if (line == 2)
+            {
                 for (int k = 0; k < 4; k++)
                 {
-                    if ((l * 5) + k + 1 <= otherEntity.weaponInventory.Length)
+                    if ((l * 5) + k + 1 <= otherEntity.weaponInventory.Count && otherEntity.weaponInventory[k].name != "empty")
                     {
-                        Console.Write(otherEntity.weaponInventory[k].type);
+                        Console.Write(otherEntity.weaponInventory[k].type + "  ");
 
-                        for (int j = 1; j <= otherEntity.weaponInventory[k].name.Length
-                            - otherEntity.weaponInventory[k].type.Length; j++)
+                        for (int j = 1; j <= otherEntity.weaponInventory[k].name.Length - otherEntity.weaponInventory[k].type.Length; j++)
                         {
                             Console.Write(" ");
                         }
@@ -623,9 +724,12 @@ namespace DragonHeartWithGit.DragonHeartReplit
                         Console.Write("          ");
                     }
 
+
                 }
             }
         }
 
     }
+
+
 }

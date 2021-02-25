@@ -37,15 +37,12 @@ class PlayClass
 
         List<Entities> allEntities = new List<Entities>();
 
-        allEntities.Add(new Entities(new Items[] { new Items(1, "Potion", "Health Potion") },
-            new Weapon[]{new Weapon(50, "pierce", "wooden knife", "2d5 ",
-            new List<List<int>>{ new List<int>(){0,2,0},
-                new List<int>() { 0, -1, 0 },
-                new List<int>() { 0, 0, 0 } }, false) }, "E", new[] { 99, 99 }, 0,
-            ConsoleColor.DarkYellow, "Empty"));
+        allEntities.Add(new Entities(new List<Items>(),
+            new List<Weapon>(), "E", new[] { 99, 99 }, 0,
+            ConsoleColor.DarkYellow, " "));
 
-        allEntities.Add(new Entities(new Items[] { new Items(2, "Potion", "Health Potion"), new Items(2, "Potion", "Mana Potion"), new Items(4, "Food", "Roll") },
-            new Weapon[]{new Weapon(50, "pierce", "wooden knife", "2d5 ",
+        allEntities.Add(new Entities(new List<Items> { new Items(2, "Potion", "Health Potion"), new Items(2, "Potion", "Mana Potion"), new Items(4, "Food", "Roll") },
+            new List<Weapon>{new Weapon(50, "pierce", "Wooden Knife", "2d5 ",
             new List<List<int>>{ new List<int>(){0,2,0},
                 new List<int>() { 0, -1, 0 },
                 new List<int>() { 0, 0, 0 } }, false) }, "C", new[] { 50, 52 }, 0,
