@@ -1,23 +1,21 @@
 /*
 TO DO:
   To go over with Judson
-  -Possibly using child classes for items/weapons
-  -
+-how to make items/weapons global
 
   Right now:
-  -move combat log to the right side of map(maybe)(skip for now)
-  -build items and item inventory/weapon inventory.
+  -Add killable enemies
+  -Add enemy ai
  
 
   Future plan:
--Build inventory system
+-Build inventory system(Needs Visual Work)
 -Build Weapons objects (use one object for each weapon, when instaciating add
   randomness)
 -allow for swinging of weapons/shooting of bows (Kinda Done)
 -add keybinds system(Done)
 -build extra features in map builder (classification of specific blocks,
-  add areas feature, maybe add line maker and area filler, add printing)
--add timer(Maybe)
+  add areas feature, maybe add line maker and area filler, add printing)(Done)
 -add basic combat dummies
 -add real enemies(loot, maybe basic ai)
 0.5
@@ -37,23 +35,29 @@ TO DO:
 Weapons and Items
 
 
-Weapon fists = new Weapon(10000, "bludge", "Fists",
-                                "1d2 ",new List<List<int>>() { new List<int>(){0,1,0 },
-                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
+    Weapon fists = new Weapon(10000, "bludge", "Fists",
+    "1d2 ",new List<List<int>>() { new List<int>(){0,1,0 },
+    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
 
 
-Weapon woodenShortsword = new Weapon(50, "slash", "wooden shortsword",
-            "1d6 ", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
-                new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},
-            new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true );
+    Weapon woodenShortsword = new Weapon(50, "slash", "wooden shortsword",
+    "1d6 ", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
+    new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},
+    new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true );
 
-Weapon woodenClub = new Weapon(50, "bludge", "wooden club",
-            "1d5 ", new List<List<int>>{ new List<int>(){1,2,1},
-                new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true );      
+    Weapon woodenClub = new Weapon(50, "bludge", "wooden club",
+    "1d5 ", new List<List<int>>{ new List<int>(){1,2,1},
+    new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true );      
 
-Weapon woodenKnife = new Weapon(50, "pierce", "wooden knife",
-            "2d5 ", new List<List<int>>{ new List<int>(){0,2,0},
-                new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, false);                          
+    Weapon woodenKnife = new Weapon(50, "pierce", "wooden knife",
+    "2d5 ", new List<List<int>>{ new List<int>(){0,2,0},
+    new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, false);       
+                
+
+
+    Items(1, "Potion", "Health Potion")
+    Items(4, "Food", "Roll")
+    Items(2, "Potion", "Mana Potion")
 
 */
 

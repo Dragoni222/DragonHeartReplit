@@ -18,7 +18,8 @@ using DragonHeartWithGit.DragonHeartReplit;
 using System.Threading;
 using static DrawEntities;
 using static Entities;
-
+using static FindRangeStats;
+using static RandomFunctions;
 class PlayClass
 {
 
@@ -520,9 +521,61 @@ class PlayClass
                     {
                         
                         fullMapOrig = SwingWeapon2(Player1, 1, fullMap, SwingWeapon3(Player1, 1, fullMapHighColor));
-                        //fullMap = fullMapOrig;
                         fullMapHighColor = SwingWeapon3(Player1, 1, fullMapHighColor);
                         Player1 = SwingWeapon1(Player1, 1);
+
+                        int playerX = 1;
+                        int playerY = 1;
+
+                        List<List<int>> savedRange = FindTrueRange(Player1, 1);
+
+                        for (int y = 0; y < Player1.equip1.range.Count; y++)
+                        {
+                            for (int x = 0; x < Player1.equip1.range[y].Count; x++)
+                            {
+                                if (Player1.equip1.range[y][x] == -1)
+                                {
+                                    playerX = x;
+                                    playerY = y;
+                                }
+
+                            }
+                        }
+
+                        for (int y = 0; y <= Player1.equip1.range.Count - 1; y++)
+                        {
+                            for (int x = 0; x <= Player1.equip1.range[y].Count - 1; x++)
+                            {
+                                /*
+                                for(int z = 0; z < allEntities.Count; z++)
+                                {
+                                    if(allEntities[z])
+                                }
+                                
+                                if (fullMap[Player1.charXY[0] + (x - playerX)]
+                                    [Player1.charXY[1] + (y - playerY)] != "0" &&
+                                    fullMap[Player1.charXY[0] + (x - playerX)]
+                                    [Player1.charXY[1] + (y - playerY)] != " ")
+                                {
+                                    if (savedRange[y][x] == 1)
+                                    {
+                                        if (DamageRandom(Player1.equip1.damage, 1, 0) >= 5)
+                                            fullMap = mapAugment(fullMap,
+                                                Player1.charXY[0] + (x - playerX),
+                                                Player1.charXY[1] + (y - playerY), " ");
+                                    }
+                                    else if (savedRange[y][x] == 2)
+                                    {
+                                        if (DamageRandom(Player1.equip1.damage, 2, 0) >= 5)
+                                            fullMap = mapAugment(fullMap,
+                                                Player1.charXY[0] + (x - playerX),
+                                                Player1.charXY[1] + (y - playerY), " ");
+                                    }
+                                }
+                                */
+
+                            }
+                        }
 
                         if (Player1.equip1.durability == 0)
                         {

@@ -26,15 +26,26 @@ namespace DragonHeartWithGit.DragonHeartReplit
             {
 
                 drawInventoryMenu(Player1, selected, onScreenText, onScreenTextColor, otherEntity,selectedOther,selectedSaved);
+                if(otherEntity.itemInventory.Count < 1&&selected == 0)
+                {
+                    selected = Player1.itemInventory.Count - 1;
+                }
 
+                if (otherEntity.weaponInventory.Count < 1 && selectedWeapons == 0)
+                {
+                    selectedWeapons = Player1.weaponInventory.Count - 1;
+                }
                 ConsoleKey input = KeyInput().Key;
                 if (selected <= Player1.itemInventory.Count && selected != 0)
                 {
                     if (input == ConsoleKey.RightArrow )
                     {
-                        selected++;
+                        if (otherEntity.itemInventory.Count >= 1 || selected != Player1.itemInventory.Count)
+                        {
+                            selected++;
+                        }
                         
-                        
+  
                     }
                     if (input == ConsoleKey.LeftArrow && selected > 1)
                     {
@@ -309,7 +320,10 @@ namespace DragonHeartWithGit.DragonHeartReplit
                         {
                             if (inputWeapons == ConsoleKey.RightArrow)
                             {
-                                selectedWeapons++;
+                                if (otherEntity.weaponInventory.Count >= 1 || selectedWeapons != Player1.weaponInventory.Count)
+                                {
+                                    selectedWeapons++;
+                                }
                             }
                             if (inputWeapons == ConsoleKey.LeftArrow && selectedWeapons > 1)
                             {
@@ -420,7 +434,32 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                                     if (inputWeapons == ConsoleKey.E)
                                     {
-                                        //DEBUG EQUIP HERE
+                                        Console.Clear();
+                                        Console.WriteLine("Which hand do you want to equip this in? (L)eft (R)ight");
+                                        input = KeyInput().Key;
+                                        for (int i = 0; i< Player1.itemInventory.Count; i++)
+                                        {
+                                            if(input == ConsoleKey.L)
+                                            {
+                                                if (Player1.weaponInventory[i].name == Player1.equip1.name&&Player1.weaponInventory[i].equipped == true)
+                                                {
+                                                    Player1.weaponInventory[i].equipped = false;
+                                                }
+                                                Player1.weaponInventory[selectedWeapons - 1].equipped = true;
+                                                Player1.equip1 = Player1.weaponInventory[selectedWeapons - 1];
+                                            }
+
+                                            if (input == ConsoleKey.R)
+                                            {
+                                                if (Player1.weaponInventory[i].name == Player1.equip2.name && Player1.weaponInventory[i].equipped == true)
+                                                {
+                                                    Player1.weaponInventory[i].equipped = false;
+                                                }
+                                                Player1.weaponInventory[selectedWeapons - 1].equipped = true;
+                                                Player1.equip2 = Player1.weaponInventory[selectedWeapons - 1];
+                                            }
+
+                                        }
                                     }
                                     else if (inputWeapons == ConsoleKey.D)
                                     {
@@ -435,14 +474,38 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                 }
                                 if (selectedWeapons == 0)
                                 {
-                                    Console.WriteLine("(E)quip, (D)iscard, (Take), or press esc to return to menu");
+                                    Console.WriteLine("(E)quip, (D)iscard, (T)ake, or press esc to return to menu");
                                     Console.WriteLine(otherEntity.weaponInventory[selectedOtherWeapons - 1].name + "          ");
                                     Console.WriteLine(otherEntity.weaponInventory[selectedOtherWeapons - 1].type + "  ");
                                     inputWeapons = KeyInput().Key;
 
                                     if (inputWeapons == ConsoleKey.E)
                                     {
-                                        //DEBUG EQUIP HERE
+                                       
+
+                                        Console.Clear();
+                                        Console.WriteLine("Which hand do you want to equip this in? (L)eft (R)ight");
+                                        input = KeyInput().Key;
+                                        for (int i = 0; i < Player1.itemInventory.Count; i++)
+                                        {
+                                            if (input == ConsoleKey.L)
+                                            {
+                                                otherEntity.weaponInventory[selectedOtherWeapons - 1].equipped = true;
+                                                Player1.equip1 = otherEntity.weaponInventory[selectedOtherWeapons - 1];
+                                            }
+
+                                            if (input == ConsoleKey.R)
+                                            {
+                                                otherEntity.weaponInventory[selectedOtherWeapons - 1].equipped = true;
+                                                Player1.equip2 = otherEntity.weaponInventory[selectedOtherWeapons - 1];
+                                            }
+
+                                        }
+
+                                        Player1.weaponInventory.Add(otherEntity.weaponInventory[selectedOtherWeapons - 1]);
+                                        otherEntity.weaponInventory.RemoveAt(selectedOtherWeapons - 1);
+                                        leaveWeapons = true;
+                                        selectedSavedWeapons++;
                                     }
                                     else if (inputWeapons == ConsoleKey.D)
                                     {
