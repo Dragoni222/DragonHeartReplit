@@ -29,6 +29,25 @@ class PlayClass
         List<List<System.ConsoleColor>> fullMapColorOrig, List<List<System.ConsoleColor>> fullMapHighColor,
         List<List<System.ConsoleColor>> fullMapHighColorOrig)
     {
+
+        Weapon fists = new Weapon(10000, "bludge", "Fists",
+        "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
+        new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
+
+
+        Weapon woodenShortsword = new Weapon(50, "slash", "wooden shortsword",
+        "1d6 ", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
+        new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},
+        new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true);
+
+        Weapon woodenClub = new Weapon(50, "bludge", "wooden club",
+        "1d5 ", new List<List<int>>{ new List<int>(){1,2,1},
+        new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true);
+
+        Weapon woodenKnife = new Weapon(50, "pierce", "wooden knife",
+        "2d5 ", new List<List<int>>{ new List<int>(){0,2,0},
+        new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, false);
+
         int[] colorChangeID = new int[14];
 
         Keybinds keybindsMapMaker = new Keybinds(ConsoleKey.Escape, ConsoleKey.W,
@@ -40,14 +59,20 @@ class PlayClass
 
         allEntities.Add(new Entities(new List<Items>(),
             new List<Weapon>(), "E", new[] { 99, 99 }, 0,
-            ConsoleColor.DarkYellow, " "));
+            ConsoleColor.DarkYellow, " ", fists, fists, "object"));
 
         allEntities.Add(new Entities(new List<Items> { new Items(2, "Potion", "Health Potion"), new Items(2, "Potion", "Mana Potion"), new Items(4, "Food", "Roll") },
             new List<Weapon>{new Weapon(50, "pierce", "Wooden Knife", "2d5 ",
             new List<List<int>>{ new List<int>(){0,2,0},
                 new List<int>() { 0, -1, 0 },
                 new List<int>() { 0, 0, 0 } }, false) }, "C", new[] { 50, 52 }, 0,
-            ConsoleColor.DarkYellow, "Chest"));
+            ConsoleColor.DarkYellow, "Chest", fists, fists, "object"));
+
+        allEntities.Add(new Entities(new List<Items> { new Items(2, "Potion", "Health Potion"), new Items(2, "Potion", "Mana Potion"), new Items(4, "Food", "Roll") },
+            new List<Weapon>{new Weapon(50, "bludge", "wooden club",
+            "1d5 ", new List<List<int>>{ new List<int>(){1,2,1},
+            new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true )}, "G", new[] { 40, 45 }, 15,
+            ConsoleColor.Green, "Goblin", woodenClub, woodenClub, "Rush"));
 
         for (int o = 1; o <= colorChangeID.Length; o++)
         {
@@ -442,8 +467,6 @@ class PlayClass
 
                 }
 
-
-
                 while (true)
                 {
                     fullMap = fullMapOrig;
@@ -451,6 +474,21 @@ class PlayClass
                     //prioirty order for inputs: WASD, paint commands, explicit commands, unnamed command
                     
                     var commandInput = KeyInput().Key;
+
+                    for(int i = 0; i <= allEntities.Count - 1; i++)
+                    {
+                        if(allEntities[i].hp <= 0 && allEntities[i].trueName != "Chest")
+                        {
+
+                            if (allEntities[i].trueName.Contains("(dead)")==false)
+                            {
+                                allEntities[i].trueName += " (dead)";
+                            }
+
+                            allEntities[i].hp = 0;
+                            allEntities[i].nameColor = ConsoleColor.Blue;
+                        }
+                    }
 
                     if (commandInput == keybindsMapMaker.up || commandInput == keybindsMapMaker.left || commandInput == keybindsMapMaker.down || commandInput == keybindsMapMaker.right)
                     {
@@ -494,7 +532,7 @@ class PlayClass
                         for(int i = 0; i <= allEntities.Count-1; i++)
                         {
                             
-                            if (allEntities[i].entityXY[1] == Player1.charXY[1] && allEntities[i].entityXY[0] == Player1.charXY[0])
+                            if (allEntities[i].entityXY[1] == Player1.charXY[1] && allEntities[i].entityXY[0] == Player1.charXY[0] && allEntities[i].hp<=0)
                             {
                                 
                                 Player1 = InventoryMenu(Player1, onScreenText, onScreenTextColor, allEntities[i]);
@@ -524,57 +562,13 @@ class PlayClass
                         fullMapHighColor = SwingWeapon3(Player1, 1, fullMapHighColor);
                         Player1 = SwingWeapon1(Player1, 1);
 
-                        int playerX = 1;
-                        int playerY = 1;
-
-                        List<List<int>> savedRange = FindTrueRange(Player1, 1);
-
-                        for (int y = 0; y < Player1.equip1.range.Count; y++)
+                        for(int z = 0; z < allEntities.Count-1; z++)
                         {
-                            for (int x = 0; x < Player1.equip1.range[y].Count; x++)
-                            {
-                                if (Player1.equip1.range[y][x] == -1)
-                                {
-                                    playerX = x;
-                                    playerY = y;
-                                }
+                            if (IsInRange(FindTrueRange(Player1.direction, Player1.equip1.range), Player1.charXY, allEntities[z].entityXY) == 1)
+                                allEntities[z].hp -= DamageRandom(Player1.equip1.damage, 1, 0);
 
-                            }
-                        }
-
-                        for (int y = 0; y <= Player1.equip1.range.Count - 1; y++)
-                        {
-                            for (int x = 0; x <= Player1.equip1.range[y].Count - 1; x++)
-                            {
-                                /*
-                                for(int z = 0; z < allEntities.Count; z++)
-                                {
-                                    if(allEntities[z])
-                                }
-                                
-                                if (fullMap[Player1.charXY[0] + (x - playerX)]
-                                    [Player1.charXY[1] + (y - playerY)] != "0" &&
-                                    fullMap[Player1.charXY[0] + (x - playerX)]
-                                    [Player1.charXY[1] + (y - playerY)] != " ")
-                                {
-                                    if (savedRange[y][x] == 1)
-                                    {
-                                        if (DamageRandom(Player1.equip1.damage, 1, 0) >= 5)
-                                            fullMap = mapAugment(fullMap,
-                                                Player1.charXY[0] + (x - playerX),
-                                                Player1.charXY[1] + (y - playerY), " ");
-                                    }
-                                    else if (savedRange[y][x] == 2)
-                                    {
-                                        if (DamageRandom(Player1.equip1.damage, 2, 0) >= 5)
-                                            fullMap = mapAugment(fullMap,
-                                                Player1.charXY[0] + (x - playerX),
-                                                Player1.charXY[1] + (y - playerY), " ");
-                                    }
-                                }
-                                */
-
-                            }
+                            if (IsInRange(FindTrueRange(Player1.direction, Player1.equip1.range), Player1.charXY, allEntities[z].entityXY) == 2)
+                                allEntities[z].hp -= DamageRandom(Player1.equip1.damage, 2, 0);
                         }
 
                         if (Player1.equip1.durability == 0)
@@ -595,6 +589,15 @@ class PlayClass
                         //fullMap = fullMapOrig;
                         fullMapHighColor = SwingWeapon3(Player1, 2, fullMapHighColor);
                         Player1 = SwingWeapon1(Player1, 2);
+
+                        for (int z = 0; z < allEntities.Count - 1; z++)
+                        {
+                            if (IsInRange(FindTrueRange(Player1.direction, Player1.equip2.range), Player1.charXY, allEntities[z].entityXY) == 1)
+                                allEntities[z].hp -= DamageRandom(Player1.equip2.damage, 1, 0);
+
+                            if (IsInRange(FindTrueRange(Player1.direction, Player1.equip2.range), Player1.charXY, allEntities[z].entityXY) == 2)
+                                allEntities[z].hp -= DamageRandom(Player1.equip2.damage, 2, 0);
+                        }
 
                         if (Player1.equip2.durability == 0)
                         {
@@ -688,6 +691,137 @@ class PlayClass
                         }
 
                     }
+
+                    bool isEnemyTurn = true;
+                    while (isEnemyTurn == true)
+                    {
+                        for(int i = 0; i <= allEntities.Count-1; i++)
+                        {
+                            
+                            if (allEntities[i].entityAI == "Rush")
+                            {
+                                //Thread.Sleep(100000);
+                                if (allEntities[i].entityXY[0]-Player1.charXY[0]
+                                    < 5&& allEntities[i].entityXY[1] - Player1.charXY[1] < 5)
+                                {
+                                    bool swingWeapon = false;
+                                    int savedDirection = 1;
+
+                                    if(allEntities[i].entityXY[0] > Player1.charXY[0])
+                                    {
+                                        savedDirection = 2;
+
+                                        if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+                                            swingWeapon = true;
+                                        } 
+                                    }
+                                    else if (allEntities[i].entityXY[0] < Player1.charXY[0])
+                                    {
+                                        savedDirection = 4;
+                                        if (IsInRange(FindTrueRange(2, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+                                            swingWeapon = true;
+                                        }
+                                    }
+                                    else if (allEntities[i].entityXY[1] > Player1.charXY[1])
+                                    {
+                                        savedDirection = 3;
+                                        if (IsInRange(FindTrueRange(1, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+                                            swingWeapon = true;
+                                        }
+                                    }
+                                    else if (allEntities[i].entityXY[1] < Player1.charXY[1])
+                                    {
+                                        savedDirection = 1;
+                                        if (IsInRange(FindTrueRange(3, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+                                            swingWeapon = true;
+                                        }
+                                    }
+
+                                    if (swingWeapon == false)
+                                    {
+                                        int[] savedEntityXY = { allEntities[i].entityXY[0], allEntities[i].entityXY[1] };
+                                        allEntities[i].entityXY = entMove(allEntities[i], fullMap, false);
+                                        if (savedEntityXY == allEntities[i].entityXY)
+                                        {
+                                            if (allEntities[i].entityXY[0] < Player1.charXY[0] && savedDirection != 2)
+                                            {
+                                                savedDirection = 2;
+
+                                                if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            else if (allEntities[i].entityXY[0] > Player1.charXY[0] && savedDirection != 4)
+                                            {
+                                                savedDirection = 4;
+                                                if (IsInRange(FindTrueRange(2, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            else if (allEntities[i].entityXY[1] < Player1.charXY[1] && savedDirection != 3)
+                                            {
+                                                savedDirection = 3;
+                                                if (IsInRange(FindTrueRange(1, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            else if (allEntities[i].entityXY[1] > Player1.charXY[1] && savedDirection != 1)
+                                            {
+                                                savedDirection = 1;
+                                                if (IsInRange(FindTrueRange(3, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            allEntities[i].entityXY = entMove(allEntities[i], fullMap, false);
+
+                                        }
+
+
+                                    }
+
+                                    if (swingWeapon == true)
+                                    {
+                                        fullMapOrig = SwingEntityWeapon2(allEntities[i], 1, fullMap, SwingEntityWeapon3(allEntities[i], 1, fullMapHighColor, savedDirection), savedDirection);
+                                        fullMapHighColor = SwingEntityWeapon3(allEntities[i], 1, fullMapHighColor, savedDirection);
+                                        allEntities[i] = SwingEntityWeapon1(allEntities[i], 1);
+
+
+                                        if (IsInRange(FindTrueRange(4, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) == 1)
+                                            Player1.hp -= DamageRandom(Player1.equip1.damage, 1, 0);
+
+                                        if (IsInRange(FindTrueRange(4, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) == 2)
+                                            Player1.hp -= DamageRandom(Player1.equip1.damage, 2, 0);
+
+
+                                        if (allEntities[i].equip1.durability == 0)
+                                        {
+                                            Player1.equip1 = new Weapon(10000, "bludge", "Fists",
+                                                "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
+                                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
+                                        }
+
+                                        swingWeapon = false;
+                                    }
+                                    
+
+
+                                }
+                            }
+
+
+                        }
+                        isEnemyTurn = false;
+                    }
+
+
                     //what is written below the map
                     //combat log inputs
                     onScreenText = onScreenTextAugment(onScreenText, commandInput.ToString(), 13);

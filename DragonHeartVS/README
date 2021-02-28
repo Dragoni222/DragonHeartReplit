@@ -29,8 +29,17 @@ TO DO:
 -add side quests
 -add large side quests(alternate story paths)
 
+Entity Creation:
+    Create entity using the Entity object
+    Create ai in Play- while(isEnemyTurn == true){}
 
+Map Piece Creation:
+    Create collision in Play-Player move
+    Create collision in Play-Is Enemy Turn
 
+Weapon Creation:
+    Create weapon from weapon item
+    add it to a chest/player/enemy inventory
 
 Weapons and Items
 

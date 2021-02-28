@@ -25,9 +25,14 @@ public class Entities
     public int hp { get; set; }
     public ConsoleColor nameColor { get; set; }
     public string trueName { get; set; }
+    public Weapon equip1 { get; set; }
+    public Weapon equip2 { get; set; }
+    public string entityAI { get; set; }
+
 
     public Entities(List<Items> ItemInventory, List<Weapon> WeaponInventory, string Name,
-        int[] EntityXY, int Hp, ConsoleColor NameColor, string TrueName)
+        int[] EntityXY, int Hp, ConsoleColor NameColor, string TrueName, Weapon Equip1
+        , Weapon Equip2, string EntityAI )
     {
         name = Name;
         trueName = TrueName;
@@ -36,6 +41,10 @@ public class Entities
         entityXY = EntityXY;
         hp = Hp;
         nameColor = NameColor;
+        equip1 = Equip1;
+        equip2 = Equip2;
+        entityAI = EntityAI;
+        
     }
 }
 
