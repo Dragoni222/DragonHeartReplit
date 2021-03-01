@@ -82,7 +82,7 @@ class MainClass
                       }
                       else
                       {
-                          fullMap[j].Add("0");
+                          fullMap[j].Add("*");
                       }
                   }
 

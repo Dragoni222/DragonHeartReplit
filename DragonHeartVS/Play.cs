@@ -471,8 +471,141 @@ class PlayClass
                 {
                     fullMap = fullMapOrig;
 
+                    bool isEnemyTurn = true;
+                    while (isEnemyTurn == true)
+                    {
+                        for (int i = 0; i <= allEntities.Count - 1; i++)
+                        {
+
+                            if (allEntities[i].entityAI == "Rush")
+                            {
+
+                                if (allEntities[i].entityXY[0] - Player1.charXY[0]
+                                    < 5 && allEntities[i].entityXY[1] - Player1.charXY[1] < 5)
+                                {
+                                    bool swingWeapon = false;
+                                    int savedDirection = 1;
+
+
+                                    if (allEntities[i].entityXY[0] > Player1.charXY[0])
+                                    {
+                                        savedDirection = 4;
+
+                                        if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+                                            swingWeapon = true;
+                                        }
+                                    }
+                                    else if (allEntities[i].entityXY[0] < Player1.charXY[0])
+                                    {
+                                        savedDirection = 2;
+
+                                        if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+
+                                            swingWeapon = true;
+                                        }
+                                    }
+                                    else if (allEntities[i].entityXY[1] > Player1.charXY[1])
+                                    {
+                                        savedDirection = 1;
+                                        if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+                                            swingWeapon = true;
+                                        }
+                                    }
+                                    else if (allEntities[i].entityXY[1] <= Player1.charXY[1])
+                                    {
+                                        savedDirection = 3;
+                                        if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                        {
+                                            swingWeapon = true;
+                                        }
+                                    }
+
+                                    if (swingWeapon == false)
+                                    {
+                                        int[] savedEntityXY = { allEntities[i].entityXY[0], allEntities[i].entityXY[1] };
+                                        allEntities[i].entityXY = entMove(allEntities[i], fullMap, false, savedDirection);
+
+                                        if (savedEntityXY == allEntities[i].entityXY)
+                                        {
+                                            if (allEntities[i].entityXY[0] < Player1.charXY[0] && savedDirection != 2)
+                                            {
+                                                savedDirection = 2;
+
+                                                if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            else if (allEntities[i].entityXY[0] > Player1.charXY[0] && savedDirection != 4)
+                                            {
+                                                savedDirection = 4;
+                                                if (IsInRange(FindTrueRange(2, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            else if (allEntities[i].entityXY[1] < Player1.charXY[1] && savedDirection != 3)
+                                            {
+                                                savedDirection = 3;
+                                                if (IsInRange(FindTrueRange(1, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            else if (allEntities[i].entityXY[1] > Player1.charXY[1] && savedDirection != 1)
+                                            {
+                                                savedDirection = 1;
+                                                if (IsInRange(FindTrueRange(3, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
+                                                {
+                                                    swingWeapon = true;
+                                                }
+                                            }
+                                            allEntities[i].entityXY = entMove(allEntities[i], fullMap, false, savedDirection);
+
+                                        }
+
+
+                                    }
+
+                                    if (swingWeapon == true)
+                                    {
+                                        fullMapOrig = SwingEntityWeapon2(allEntities[i], 1, fullMap, SwingEntityWeapon3(allEntities[i], 1, fullMapHighColor, savedDirection), savedDirection);
+                                        fullMapHighColor = SwingEntityWeapon3(allEntities[i], 1, fullMapHighColor, savedDirection);
+                                        allEntities[i] = SwingEntityWeapon1(allEntities[i], 1);
+
+
+                                        if (IsInRange(FindTrueRange(4, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) == 1)
+                                            Player1.hp -= DamageRandom(Player1.equip1.damage, 1, 0);
+
+                                        if (IsInRange(FindTrueRange(4, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) == 2)
+                                            Player1.hp -= DamageRandom(Player1.equip1.damage, 2, 0);
+
+
+                                        if (allEntities[i].equip1.durability == 0)
+                                        {
+                                            Player1.equip1 = new Weapon(10000, "bludge", "Fists",
+                                                "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
+                                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
+                                        }
+
+                                        swingWeapon = false;
+                                    }
+
+
+
+                                }
+                            }
+
+
+                        }
+                        isEnemyTurn = false;
+                    }
+
                     //prioirty order for inputs: WASD, paint commands, explicit commands, unnamed command
-                    
+
                     var commandInput = KeyInput().Key;
 
                     for(int i = 0; i <= allEntities.Count - 1; i++)
@@ -692,134 +825,7 @@ class PlayClass
 
                     }
 
-                    bool isEnemyTurn = true;
-                    while (isEnemyTurn == true)
-                    {
-                        for(int i = 0; i <= allEntities.Count-1; i++)
-                        {
-                            
-                            if (allEntities[i].entityAI == "Rush")
-                            {
-                                //Thread.Sleep(100000);
-                                if (allEntities[i].entityXY[0]-Player1.charXY[0]
-                                    < 5&& allEntities[i].entityXY[1] - Player1.charXY[1] < 5)
-                                {
-                                    bool swingWeapon = false;
-                                    int savedDirection = 1;
-
-                                    if(allEntities[i].entityXY[0] > Player1.charXY[0])
-                                    {
-                                        savedDirection = 2;
-
-                                        if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                        {
-                                            swingWeapon = true;
-                                        } 
-                                    }
-                                    else if (allEntities[i].entityXY[0] < Player1.charXY[0])
-                                    {
-                                        savedDirection = 4;
-                                        if (IsInRange(FindTrueRange(2, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                        {
-                                            swingWeapon = true;
-                                        }
-                                    }
-                                    else if (allEntities[i].entityXY[1] > Player1.charXY[1])
-                                    {
-                                        savedDirection = 3;
-                                        if (IsInRange(FindTrueRange(1, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                        {
-                                            swingWeapon = true;
-                                        }
-                                    }
-                                    else if (allEntities[i].entityXY[1] < Player1.charXY[1])
-                                    {
-                                        savedDirection = 1;
-                                        if (IsInRange(FindTrueRange(3, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                        {
-                                            swingWeapon = true;
-                                        }
-                                    }
-
-                                    if (swingWeapon == false)
-                                    {
-                                        int[] savedEntityXY = { allEntities[i].entityXY[0], allEntities[i].entityXY[1] };
-                                        allEntities[i].entityXY = entMove(allEntities[i], fullMap, false);
-                                        if (savedEntityXY == allEntities[i].entityXY)
-                                        {
-                                            if (allEntities[i].entityXY[0] < Player1.charXY[0] && savedDirection != 2)
-                                            {
-                                                savedDirection = 2;
-
-                                                if (IsInRange(FindTrueRange(savedDirection, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                                {
-                                                    swingWeapon = true;
-                                                }
-                                            }
-                                            else if (allEntities[i].entityXY[0] > Player1.charXY[0] && savedDirection != 4)
-                                            {
-                                                savedDirection = 4;
-                                                if (IsInRange(FindTrueRange(2, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                                {
-                                                    swingWeapon = true;
-                                                }
-                                            }
-                                            else if (allEntities[i].entityXY[1] < Player1.charXY[1] && savedDirection != 3)
-                                            {
-                                                savedDirection = 3;
-                                                if (IsInRange(FindTrueRange(1, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                                {
-                                                    swingWeapon = true;
-                                                }
-                                            }
-                                            else if (allEntities[i].entityXY[1] > Player1.charXY[1] && savedDirection != 1)
-                                            {
-                                                savedDirection = 1;
-                                                if (IsInRange(FindTrueRange(3, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) > 0)
-                                                {
-                                                    swingWeapon = true;
-                                                }
-                                            }
-                                            allEntities[i].entityXY = entMove(allEntities[i], fullMap, false);
-
-                                        }
-
-
-                                    }
-
-                                    if (swingWeapon == true)
-                                    {
-                                        fullMapOrig = SwingEntityWeapon2(allEntities[i], 1, fullMap, SwingEntityWeapon3(allEntities[i], 1, fullMapHighColor, savedDirection), savedDirection);
-                                        fullMapHighColor = SwingEntityWeapon3(allEntities[i], 1, fullMapHighColor, savedDirection);
-                                        allEntities[i] = SwingEntityWeapon1(allEntities[i], 1);
-
-
-                                        if (IsInRange(FindTrueRange(4, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) == 1)
-                                            Player1.hp -= DamageRandom(Player1.equip1.damage, 1, 0);
-
-                                        if (IsInRange(FindTrueRange(4, allEntities[i].equip1.range), allEntities[i].entityXY, Player1.charXY) == 2)
-                                            Player1.hp -= DamageRandom(Player1.equip1.damage, 2, 0);
-
-
-                                        if (allEntities[i].equip1.durability == 0)
-                                        {
-                                            Player1.equip1 = new Weapon(10000, "bludge", "Fists",
-                                                "1d2 ", new List<List<int>>() { new List<int>(){0,1,0 },
-                                                    new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
-                                        }
-
-                                        swingWeapon = false;
-                                    }
-                                    
-
-
-                                }
-                            }
-
-
-                        }
-                        isEnemyTurn = false;
-                    }
+                    
 
 
                     //what is written below the map
