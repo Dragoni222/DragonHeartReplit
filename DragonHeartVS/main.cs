@@ -47,15 +47,15 @@ class MainClass
         Weapon woodenShortsword = new Weapon(50, "slash", "Wooden Shortsword",
             "1d4 ", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
                 new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},
-            new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true );
+            new List<int>() {1, 0, 0, 0,1 }, new List<int>() { 0, 0, 0, 0, 0 } }, true, 0, 1);
 
         Weapon woodenClub = new Weapon(50, "bludge", "Wooden Club",
             "1d6 ", new List<List<int>>{ new List<int>(){1,2,1},
-                new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true );
+                new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, true, 0, 1);
 
         Weapon woodenKnife = new Weapon(50, "pierce", "Wooden Knife",
             "2d5 ", new List<List<int>>{ new List<int>(){0,2,0},
-                new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, false);
+                new List<int>() { 0, -1, 0 }, new List<int>() { 0, 0, 0 } }, false, 0, 1);
 
         List<List<string>> fullMap = new List<List<string>>();
         List<List<string>> fullMapOrig = new List<List<string>>();
@@ -82,7 +82,7 @@ class MainClass
                       }
                       else
                       {
-                          fullMap[j].Add("*");
+                          fullMap[j].Add("0");
                       }
                   }
 
@@ -95,7 +95,7 @@ class MainClass
 
           Player Player1 = new Player(100, "Y", 1, new int[] { 50, 50 },
               ConsoleColor.DarkGreen, 100, playerStartingItems, playerStartingWeapons,
-              playerStartingWeapons[0], playerStartingWeapons[1]);
+              playerStartingWeapons[0], playerStartingWeapons[1], new List<double> { 1, 0.5});
         
 
         List<List<System.ConsoleColor>> fullMapColor = new List<List<System.ConsoleColor>>();

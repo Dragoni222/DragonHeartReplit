@@ -140,4 +140,26 @@ public class FindRangeStats
 
         return 0;
     }
+
+    public static int FindDistanceInDirection (int direction, int[] XYattack, int[] XYdefend)
+    {
+        int distance = 0;
+        if (direction == 1)
+        {
+            distance = XYattack[1] - XYdefend[1];
+        }
+        else if (direction == 2)
+        {
+            distance = XYdefend[0] - XYattack[0];
+        }
+        else if (direction == 3)
+        {
+            distance = XYdefend[1] - XYattack[1];
+        }
+        else if (direction == 4)
+        {
+            distance = XYattack[0] - XYdefend[0];
+        }
+        return distance;
+    }
 }

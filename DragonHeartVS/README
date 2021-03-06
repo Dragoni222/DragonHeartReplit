@@ -4,51 +4,83 @@ TO DO:
 -how to make items/weapons global
 
   Right now:
-  -Add killable enemies
-  -Add enemy ai
+  -true items/armor
+  -room generation
  
 
-  Future plan:
--Build inventory system(Needs Visual Work)
--Build Weapons objects (use one object for each weapon, when instaciating add
-  randomness)
--allow for swinging of weapons/shooting of bows (Kinda Done)
--add keybinds system(Done)
--build extra features in map builder (classification of specific blocks,
-  add areas feature, maybe add line maker and area filler, add printing)(Done)
--add basic combat dummies
--add real enemies(loot, maybe basic ai)
-0.5
--add magic
--add dialog
--add subareas(buildings, caves, etc.)
--add title screen/playability/update menus with graphics
--build main storyline/dialog
-1.0
--add talents
--add side quests
--add large side quests(alternate story paths)
+  FUTURE PLAN:
+0.1 (alpha release)
+    -Build inventory system(Needs Visual Work(1/2 done))
+    -Build Weapons objects (use one object for each weapon, when instaciating add
+        randomness)(needs spells/ranged weapons)
+    -allow for swinging of weapons/shooting of bows (need bows)
+    -add keybinds system(Done)
+    -build extra features in map builder (classification of specific blocks,
+        add areas feature, add printing specific rooms)
+    -add basic combat dummies(done)
+    -add real enemies(loot, maybe basic ai)(done)
+    -add room generation and basic loot drops
+    -add real title screen
+    -add true items
+    -add armor
+    -add at least 5-10 enemies with 2-3 AI types
+    -add energy and true turn based system
+    -add dying
 
+0.5 (beta release)
+    -improve base game mechanics to be more fun based on feedback
+    -add lots of items/weapons/enemies/AI
+    -ensure game is relativly ballenced
+    -add second (third?) area
+    -add 1-3 bosses/ minibosses
+    -add dialog/shopping
+    -item/weapon stat randomization
+    -winning
+    -add subareas(buildings, etc)?
+    -update menus with graphics?
+    -classes?
+    -saved progess/unlocks?
+    -see if game can be sped-up/optimized on windows?
+    -sfx/music?
+    -other gimmicks?
+
+1.0 (full release)
+    -storyline?/lore?
+    -more items and shit
+    -saved progess and unlocks if not done already
+    -improve base game mechanics to be more fun based on feedback
+    -add 1-2 more areas and finish bosses
+    -stats page
+    -improve visuals
+    -post on itch.io/steam?
+    -make into a unity game and actually try?
+
+
+
+
+    TO MAKE STUFF
 Entity Creation:
     Create entity using the Entity object
     Create ai in Play- while(isEnemyTurn == true){}
 
 Map Piece Creation:
-    Create collision in Play-Player move
-    Create collision in Play-Is Enemy Turn
+
 
 Weapon Creation:
-    Create weapon from weapon item
+    Create weapon from weapon object
     add it to a chest/player/enemy inventory
 
-Weapons and Items
+Item Creation:
+    create item from items object
+    add it to a chest/player/enemy inventory
+    create effects and assign them in UseItem.cs
 
+Weapons and Items
 
     Weapon fists = new Weapon(10000, "bludge", "Fists",
     "1d2 ",new List<List<int>>() { new List<int>(){0,1,0 },
     new List<int>() { 0,-1,0 }, new List<int>() { 0,0,0} }, true);
-
-
+    
     Weapon woodenShortsword = new Weapon(50, "slash", "wooden shortsword",
     "1d6 ", new List<List<int>>{ new List<int>(){2, 2,2,2, 2},
     new List<int>() {2, 1, 1, 1, 2}, new List<int>() {1, 1, -1, 1, 1},

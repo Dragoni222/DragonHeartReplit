@@ -16,7 +16,9 @@ using DragonHeartWithGit.DragonHeartReplit;
 public class Player
 {
   public int hp { get; set; }
-  public int mana { get; set; }
+    public int maxHp { get; set; }
+    public int mana { get; set; }
+    public int maxMp { get; set; }
     public int direction { get; set; }
   public string name { get; set; }
   public ConsoleColor nameColor { get; set; }
@@ -25,11 +27,12 @@ public class Player
   public List<Weapon> weaponInventory { get; set; }
   public Weapon equip1 { get; set; }
   public Weapon equip2 { get; set; }
+    public List<double> maxEnergy { get; set; }
 
 
     public Player(int HP, string Name, int Direction,int[] CharXY, ConsoleColor NameColor,
       int Mana, List<Items> ItemInventory, List<Weapon> WeaponInventory, Weapon Equip1,
-      Weapon Equip2)
+      Weapon Equip2, List<double> MaxEnergy)
   {
 
       hp = HP;
@@ -42,7 +45,9 @@ public class Player
         weaponInventory = WeaponInventory;
         equip1 = Equip1;
         equip2 = Equip2;
-
+        maxHp = 100;
+        maxMp = 100;
+        maxEnergy = MaxEnergy;
 
   }
 

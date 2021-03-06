@@ -25,7 +25,7 @@ class PlayerMoveClass
         {
             if (Player1.charXY[1] >= 1)
             {
-                if (fullMap[Player1.charXY[1] - 1][Player1.charXY[0]] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1] - 1][Player1.charXY[0]] == " " || ghost == true)
                     Player1.charXY[1] -= 1;
             }
         }
@@ -33,7 +33,7 @@ class PlayerMoveClass
         {
             if (Player1.charXY[0] >= 1)
             {
-                if (fullMap[Player1.charXY[1]][Player1.charXY[0] - 1] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1]][Player1.charXY[0] - 1] == " " || ghost == true)
                     Player1.charXY[0] -= 1;
             }
         }
@@ -41,7 +41,7 @@ class PlayerMoveClass
         {
             if (Player1.charXY[1] < fullMap.Count-1)
             {
-                if (fullMap[Player1.charXY[1] + 1][Player1.charXY[0]] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1] + 1][Player1.charXY[0]] == " " || ghost == true)
                     Player1.charXY[1] += 1;
             }
         }
@@ -49,7 +49,7 @@ class PlayerMoveClass
         {
             if (Player1.charXY[0] < fullMap[0].Count-1)
             {
-                if (fullMap[Player1.charXY[1]][Player1.charXY[0] + 1] != "0" || ghost == true)
+                if (fullMap[Player1.charXY[1]][Player1.charXY[0] + 1] == " " || ghost == true)
                     Player1.charXY[0] += 1;
             }
         }
@@ -67,28 +67,32 @@ class PlayerMoveClass
 
         if (Player1.entityXY[1] >= 1 && direction == 1)
         {
-            if (fullMap[Player1.entityXY[1] - 1][Player1.entityXY[0]] != "0" || ghost == true)
+            if ((fullMap[Player1.entityXY[1] - 1][Player1.entityXY[0]] == " ")
+                || ghost == true)
                 Player1.entityXY[1] -= 1;
         }
 
 
         if (Player1.entityXY[0] >= 1 && direction == 4)
         {
-            if (fullMap[Player1.entityXY[1]][Player1.entityXY[0] - 1] != "0" || ghost == true)
+            if ((fullMap[Player1.entityXY[1]][Player1.entityXY[0] - 1] == " ")
+                || ghost == true)
                 Player1.entityXY[0] -= 1;
         }
 
 
         if (Player1.entityXY[1] < fullMap.Count - 1 && direction == 3)
         {
-            if (fullMap[Player1.entityXY[1] + 1][Player1.entityXY[0]] != "0" || ghost == true)
+            if ((fullMap[Player1.entityXY[1] + 1][Player1.entityXY[0]] == " ")
+                || ghost == true)
                 Player1.entityXY[1] += 1;
         }
 
 
         if (Player1.entityXY[0] < fullMap[0].Count - 1 && direction == 2)
         {
-            if (fullMap[Player1.entityXY[1]][Player1.entityXY[0] + 1] != "0" || ghost == true)
+            if ((fullMap[Player1.entityXY[1]][Player1.entityXY[0] + 1] == " ")
+                || ghost == true)
                 Player1.entityXY[0] += 1;
         }
 
@@ -97,6 +101,51 @@ class PlayerMoveClass
 
 
         return Player1.entityXY;
+
+
+    }
+
+    public static int[] hitboxMove(Hitbox Player1, List<List<string>> fullMap, bool ghost, int direction)
+    {
+
+
+        if (Player1.hitboxXY[1] >= 1 && direction == 1)
+        {
+            if ((fullMap[Player1.hitboxXY[1] - 1][Player1.hitboxXY[0]] == " ")
+                || ghost == true)
+                Player1.hitboxXY[1] -= 1;
+        }
+
+
+        if (Player1.hitboxXY[0] >= 1 && direction == 3)
+        {
+            if ((fullMap[Player1.hitboxXY[1]][Player1.hitboxXY[0] - 1] == " ")
+                || ghost == true)
+                Player1.hitboxXY[0] -= 1;
+        }
+
+
+        if (Player1.hitboxXY[1] < fullMap.Count - 1 && direction == 4)
+        {
+            if ((fullMap[Player1.hitboxXY[1] + 1][Player1.hitboxXY[0]] == " ")
+                || ghost == true)
+                Player1.hitboxXY[1] += 1;
+            
+        }
+
+
+        if (Player1.hitboxXY[0] < fullMap[0].Count - 1 && direction == 2)
+        {
+            if ((fullMap[Player1.hitboxXY[1]][Player1.hitboxXY[0] + 1] == " ")
+                || ghost == true)
+                Player1.hitboxXY[0] += 1;
+        }
+
+
+
+
+
+        return Player1.hitboxXY;
 
 
     }

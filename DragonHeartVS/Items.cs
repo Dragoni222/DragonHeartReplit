@@ -38,10 +38,12 @@ public class Weapon
     public string damage { get; set; }
     public string name { get; set; }
     public List<List<int>> range { get; set; }
+    public int shotSpeed { get; set; }
     public bool equipped { get; set; }
+    public int actionsAlive { get; set; }
 
     public Weapon(int Durability, string Type, string Name, string Damage,
-        List<List<int>> Range, bool Equipped)
+        List<List<int>> Range, bool Equipped, int ShotSpeed, int ActionsAlive)
     {
         durability = Durability;
         type = Type;
@@ -49,6 +51,39 @@ public class Weapon
         damage = Damage;
         range = Range;
         equipped = Equipped;
+        shotSpeed = ShotSpeed;
+        actionsAlive = ActionsAlive;
+    }
+
+}
+
+public class Hitbox
+{
+    public int speed { get; set; }
+    public string type { get; set; }
+    public string damage { get; set; }
+    public string name { get; set; }
+    public List<List<int>> range { get; set; }
+    public int direction { get; set; }
+    public int[] hitboxXY { get; set; }
+    public bool isPlayerHitbox { get; set; }
+    public int distance { get; set; }
+
+    public Hitbox( string Type, string Name, string Damage,
+        List<List<int>> Range, int Speed, int Direction, int[] HitboxXY
+        ,bool IsPlayerHitbox, int Distance)
+    {
+        
+        type = Type;
+        name = Name;
+        damage = Damage;
+        range = Range;
+        speed = Speed;
+        direction = Direction;
+        hitboxXY = HitboxXY;
+        isPlayerHitbox = IsPlayerHitbox;
+        distance = Distance;
+        
     }
 
 }

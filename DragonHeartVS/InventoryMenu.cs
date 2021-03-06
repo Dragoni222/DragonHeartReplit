@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static KeyInputClass;
-using System.Threading;
+using static UseItemClass;
 namespace DragonHeartWithGit.DragonHeartReplit
 {
     public class InventoryMenuClass
@@ -155,49 +155,17 @@ namespace DragonHeartWithGit.DragonHeartReplit
 
                             if (input == ConsoleKey.U)
                             {
-                                if (Player1.itemInventory[selected - 1].name == "Health Potion")
+                                if (Player1.itemInventory[selected - 1].amount >= 1)
                                 {
-                                    if (Player1.itemInventory[selected - 1].amount >= 1)
-                                    {
-                                        Player1.hp += 25;
-                                        Player1.itemInventory[selected - 1].amount--;
-                                    }
-                                    if (Player1.itemInventory[selected - 1].amount < 1)
-                                    {
-                                        Player1.itemInventory.RemoveAt(selected-1);
-                                        leave = true;
-                                    }
-                                }
-
-                                else if (Player1.itemInventory[selected - 1].name == "Mana Potion")
-                                {
-                                    if (Player1.itemInventory[selected - 1].amount >= 1)
-                                    {
-                                        Player1.mana += 25;
-                                        Player1.itemInventory[selected - 1].amount--;
-                                    }
+                                    Player1 = UseItem(Player1.itemInventory[selected - 1], Player1);
+                                    Player1.itemInventory[selected - 1].amount--;
                                     if (Player1.itemInventory[selected - 1].amount < 1)
                                     {
                                         Player1.itemInventory.RemoveAt(selected - 1);
                                         leave = true;
                                     }
-
                                 }
-                                else if (Player1.itemInventory[selected - 1].name == "Roll")
-                                {
-                                    if (Player1.itemInventory[selected - 1].amount >= 1)
-                                    {
-                                        Player1.mana += 10;
-                                        Player1.hp += 10;
-                                        Player1.itemInventory[selected - 1].amount--;
-                                    }
-                                    if (Player1.itemInventory[selected - 1].amount < 1)
-                                    {
-                                        Player1.itemInventory.RemoveAt(selected - 1);
-                                        leave = true;
-                                    }
 
-                                }
                                 else
                                 {
                                     Console.WriteLine("Uh, pretty sure using nothing is not your best option here. If this is an item, it's broken.");
@@ -429,7 +397,31 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                 {
                                     Console.WriteLine("(E)quip, (D)iscard, or press esc to return to menu");
                                     Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].name + "          ");
-                                    Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].type + "  ");
+                                    Console.WriteLine(Player1.weaponInventory[selectedWeapons - 1].damage
+                                        + " " + Player1.weaponInventory[selectedWeapons - 1].type + "  ");
+                                    Console.WriteLine("Durability: " + Player1.weaponInventory[selectedWeapons - 1].durability + "          ");
+                                    Console.WriteLine("Range: ");
+                                    for (int i = 0; i < Player1.weaponInventory[selectedWeapons - 1].range.Count; i++)
+                                    {
+                                        for (int j = 0; j < Player1.weaponInventory[selectedWeapons - 1].range[0].Count; j++)
+                                        {
+                                            if (j != Player1.weaponInventory[selectedWeapons - 1].range[i].Count - 1)
+                                            {
+                                                if (Player1.weaponInventory[selectedWeapons - 1].range[i][j + 1] != -1)
+                                                    Console.Write(Player1.weaponInventory[selectedWeapons - 1].range[i][j] + " ");
+                                                else
+                                                {
+                                                    Console.Write(Player1.weaponInventory[selectedWeapons - 1].range[i][j]);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.Write(Player1.weaponInventory[selectedWeapons - 1].range[i][j]);
+                                            }
+
+                                        }
+                                        Console.WriteLine();
+                                    }
                                     inputWeapons = KeyInput().Key;
 
                                     if (inputWeapons == ConsoleKey.E)
@@ -476,8 +468,34 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                 {
                                     Console.WriteLine("(E)quip, (D)iscard, (T)ake, or press esc to return to menu");
                                     Console.WriteLine(otherEntity.weaponInventory[selectedOtherWeapons - 1].name + "          ");
-                                    Console.WriteLine(otherEntity.weaponInventory[selectedOtherWeapons - 1].type + "  ");
+                                    Console.WriteLine(otherEntity.weaponInventory[selectedOtherWeapons - 1].damage
+                                        + " " +otherEntity.weaponInventory[selectedOtherWeapons - 1].type + "  ");
+                                    Console.WriteLine("Durability: "+otherEntity.weaponInventory[selectedOtherWeapons - 1].durability + "          ");
+                                    Console.WriteLine("Range: ");
+                                    for (int i = 0; i < otherEntity.weaponInventory[selectedOtherWeapons - 1].range.Count; i++)
+                                    {
+                                        for (int j = 0; j < otherEntity.weaponInventory[selectedOtherWeapons - 1].range[0].Count; j++)
+                                        {
+                                            if (j != otherEntity.weaponInventory[selectedOtherWeapons - 1].range[i].Count - 1)
+                                            {
+                                                if (otherEntity.weaponInventory[selectedOtherWeapons - 1].range[i][j + 1] != -1)
+                                                    Console.Write(otherEntity.weaponInventory[selectedOtherWeapons - 1].range[i][j] + " ");
+                                                else
+                                                {
+                                                    Console.Write(otherEntity.weaponInventory[selectedOtherWeapons - 1].range[i][j]);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.Write(otherEntity.weaponInventory[selectedOtherWeapons - 1].range[i][j]);
+                                            }
+
+                                        }
+                                        Console.WriteLine();
+                                    }
+
                                     inputWeapons = KeyInput().Key;
+                                    
 
                                     if (inputWeapons == ConsoleKey.E)
                                     {
@@ -526,10 +544,6 @@ namespace DragonHeartWithGit.DragonHeartReplit
                                         leaveWeapons = true;
                                     }
                                 }
-                                if (inputWeapons == ConsoleKey.Escape)
-                                {
-                                    leaveWeapons = true;
-                                }
 
                             }
 
@@ -537,6 +551,11 @@ namespace DragonHeartWithGit.DragonHeartReplit
                         if (inputWeapons == ConsoleKey.I)
                         {
                             doneWeapons = true;
+                        }
+                        if (inputWeapons == ConsoleKey.Escape)
+                        {
+                            doneWeapons = true;
+                            done = true;
                         }
                     }
                 }
